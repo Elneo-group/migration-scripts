@@ -1,3 +1,5 @@
+ALTER TABLE account_move_line ADD COLUMN last_rec_date date;
+COMMENT ON COLUMN account_move_line.last_rec_date IS 'Last reconciliation date';
 UPDATE account_move_line as acm
                    SET last_rec_date =
                         (SELECT date from account_move_line

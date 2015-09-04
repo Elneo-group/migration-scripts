@@ -22,7 +22,7 @@ USER="demo"
 PASSWORD="demo"
 URL="http://localhost:8069"
 
-CONF_FILE="./config.conf"
+CONF_FILE="$(pwd)/config.conf"
 
 set -e
 set -u
@@ -33,7 +33,7 @@ echo "Reading config for noviat_account...." >&2
 if [ -f $CONF_FILE ];
 then
    echo "File $CONF_FILE exists"
-   source ./config.conf
+   . $CONF_FILE
 else
    echo "File $CONF_FILE does not exists. Taking defaults."
 fi
@@ -44,13 +44,24 @@ while [ -z $goon ]
 do
     echo -n 'This will update noviat_account modules. Do you want to continue? '
     read goon
-    if [[ $goon = 'n' ]]
+    if [ $goon = 'n' ]
+    then
+        exit
+    fi
+    if [ $goon = 'y' ]
     then
         break
     fi
     goon=
 done
 
+psql -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f ./0_before.sql
+
+
+if [ $? != 0 ]; then
+    echo "psql failed while trying to run this sql script" 1>&2
+    exit $psql_exit_status
+fi
 
 python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL module_install_enhancements
 
