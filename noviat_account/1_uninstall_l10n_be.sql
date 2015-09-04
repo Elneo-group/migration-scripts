@@ -1,0 +1,1 @@
+update ir_module_module set state='uninstalled' where name in ('l10n_be', 'l10n_be_coda') AND state <> 'uninstalled';
