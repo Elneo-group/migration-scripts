@@ -1,8 +1,21 @@
 #!/bin/bash
-set -e
-set -u
+################################################################################
+# Script for Installation: ODOO modules
+# Author: Denis Roussel - Elneo - 2015
+#-------------------------------------------------------------------------------
+#  
+# 
+#-------------------------------------------------------------------------------
+# USAGE:
+#
+# script
+#
+# EXAMPLE:
+# ./script
+#
+################################################################################
 
-if [ $# -eq 0 ]
+if [ ! $1 ]
 then
 	echo 'Please set config file as first parameter'
 	exit 0
@@ -19,7 +32,7 @@ else
 	. $CONF_FILE #set vars of config file
 fi
 
-if [ $# -gt 1 ] && [ $2 = "--first-install" ] #mor than 1 argument and this argument is "--first-install"
+if [ ! -z "$2" ] && [ $2 = "--first-install" ]
 then
 	FIRST_INSTALL=true
 	echo 'First install...'	
@@ -29,20 +42,12 @@ else
 fi
 
 BASEDIR=$(dirname $0)
-echo "------ WARNING -----"
+echo "------ PRODUCT SEARCH -----"
 echo "Set Vars..."
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 
-echo "Install module 'warning'..."
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL warning
+echo "product_search_function.sql..."
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/1-create_warehouse_detail.sql
 
-echo "0_after.sql..."
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
-
-
-if [ $? != 0 ]; then
-    echo "psql failed while trying to run this sql script" 1>&2
-    exit $psql_exit_status
-fi
-echo "------ WARNING (FIN) -----"
+echo "------ PRODUCT SEARCH (FIN) -----"

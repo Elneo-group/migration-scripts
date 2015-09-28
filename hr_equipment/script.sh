@@ -29,20 +29,14 @@ else
 fi
 
 BASEDIR=$(dirname $0)
-echo "------ WARNING -----"
+echo "------ HR EQUIPMENT -----"
 echo "Set Vars..."
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
-
-echo "Install module 'warning'..."
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL warning
-
-echo "0_after.sql..."
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
-
-
-if [ $? != 0 ]; then
-    echo "psql failed while trying to run this sql script" 1>&2
-    exit $psql_exit_status
-fi
-echo "------ WARNING (FIN) -----"
+echo "Create backup... to $DB_BACKUP_PATH_ORIGIN"
+psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/1-migration_117.sql
+echo 'Transfer backup...'
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:/home/openerp/backups/hr_equipment.backup $DB_OS_USER@$DB_HOST:/home/elneo
+echo 'Import backup...'
+psql -h $DB_HOST -d migrated -U $DB_USER -f $BASEDIR/2-migration_119.sql
+echo "------ HR EQUIPMENT (FIN) -----"

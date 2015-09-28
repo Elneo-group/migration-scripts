@@ -32,3 +32,18 @@ LEFT JOIN maintenance_intervention d2
 ON d1.intervention_id = d2.id
 WHERE d2.id IS NULL
 AND d1.intervention_id IS NOT NULL);
+
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='maintenance_intervention' and column_name='task_state') THEN
+ALTER TABLE maintenance_intervention ADD COLUMN task_state character varying(255);
+COMMENT ON COLUMN maintenance_intervention.task_state IS 'Task state';
+END IF;                                      
+END
+$$;
+
+UPDATE maintenance_intervention mi SET task_state = 'to_plan' WHERE not EXISTS (SELECT 1 FROM maintenance_intervention_task mt WHERE intervention_id = mi.id);
+UPDATE maintenance_intervention mi SET task_state = 'planned' WHERE EXISTS (SELECT 1 FROM maintenance_intervention_task mt WHERE intervention_id = mi.id);

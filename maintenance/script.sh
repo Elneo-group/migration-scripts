@@ -1,72 +1,44 @@
 #!/bin/bash
-################################################################################
-# Script for Installation: ODOO modules
-# Author: Denis Roussel - Elneo - 2015
-#-------------------------------------------------------------------------------
-#  
-# 
-#-------------------------------------------------------------------------------
-# USAGE:
-#
-# script
-#
-# EXAMPLE:
-# ./script
-#
-################################################################################
-
-DATABASE="demo"
-DATABASE_USER="odoo"
-DATABASE_PASSWORD="odoo"
-USER="demo"
-PASSWORD="demo"
-URL="http://localhost:8069"
-
-CONF_FILE="$(pwd)/config.conf"
 
 set -e
 set -u
 
-# Read config
-echo "Reading config for maintenance...." >&2
-
-if [ -f $CONF_FILE ];
+if [ $# -eq 0 ]
 then
-   echo "File $CONF_FILE exists"
-   . $CONF_FILE
-else
-   echo "File $CONF_FILE does not exists. Taking defaults."
+	echo 'Please set config file as first parameter'
+	exit 0
 fi
 
+CONF_FILE=`readlink -m $1`
 
-goon=
-while [ -z $goon ]
-do
-    echo -n 'This will update maintenance modules. Do you want to continue (y/n)? '
-    read goon
-    if [ $goon = 'n' ]
-    then
-        exit
-    fi
-    if [ $goon = 'y' ]
-    then
-        break
-    fi
-    goon=
-done
+if [ ! -f $CONF_FILE ]; #test config file existence
+then
+	echo "Config file $CONF_FILE does not exists"
+	exit 0
+else
+	echo "Use config file $CONF_FILE..."
+	. $CONF_FILE #set vars of config file
+fi
 
-goon=
-while [ -z $goon ]
-do
-    echo -n '=== FIRST INSTALL === Is it the first install (not an update, otherwise it will delete some views) (y/n)? '
-    read goon
-    if [ $goon = 'n' ]
+if [ $# -gt 1 ] && [ $2 = "--first-install" ] #mor than 1 argument and this argument is "--first-install"
+then
+	FIRST_INSTALL=true
+	echo 'First install...'	
+else
+	FIRST_INSTALL=false
+	echo 'Not first install...'	
+fi
+
+BASEDIR=$(dirname $0)
+echo "------ MAINTENANCE -----"
+echo "Set Vars..."
+psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
+
+if [ $FIRST_INSTALL ]
     then
-        break
-    fi
-    if [ $goon = 'y' ]
-    then
-        psql -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f ./0_before.sql
+	echo "0_before.sql..."
+        psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_before.sql
         
         if [ $? != 0 ]; then
 		    echo "psql failed while trying to run this sql script" 1>&2
@@ -74,14 +46,36 @@ do
 		fi
 		break
     fi
-    goon=
-done
+
+echo "BASEDIR = $BASEDIR"
+echo "DB_HOST = $DB_HOST"
+echo "DATABASE = $DATABASE"
+echo "USER = $USER"
+echo "PASSWORD = $PASSWORD"
+echo "URL = $URL"
 
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance
+echo "Maintenance..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance
 
+echo "0_after.sql..."
+psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
 
-psql -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f ./0_after.sql
+if [ $? != 0 ]; then
+    echo "psql failed while trying to run this sql script" 1>&2
+    exit $psql_exit_status
+fi
+
+echo "maintenance_element_type..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_element_type
+
+echo "maintenance_failure_type..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_failure_type
+
+echo "maintenance_installation_check..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_installation_check
+
+psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/1_maintenance_product.sql
 
 
 if [ $? != 0 ]; then
@@ -89,27 +83,16 @@ if [ $? != 0 ]; then
     exit $psql_exit_status
 fi
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_element_type
+echo "maintenance_product..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_product
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_failure_type
+echo "maintenance_timeofuse..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_timeofuse
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_installation_check
+echo "maintenance_project..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project
 
-psql -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f ./1_maintenance_product.sql
-
-
-if [ $? != 0 ]; then
-    echo "psql failed while trying to run this sql script" 1>&2
-    exit $psql_exit_status
-fi
-
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_product
-
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_timeofuse
-
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project
-
-psql -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f ./2_maintenance_model.sql
+psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/2_maintenance_model.sql
 
 
 if [ $? != 0 ]; then
@@ -117,19 +100,25 @@ if [ $? != 0 ]; then
     exit $psql_exit_status
 fi
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_model
+echo "maintenance_model..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_model
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_travel_cost
+echo "maintenance_travel_cost..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_travel_cost
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_intervention_merge
+echo "maintenance_intervention_merge..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_intervention_merge
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project_invoicing
+echo "maintenance_project_invoicing..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project_invoicing
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project_quotation
+echo "maintenance_project_quotation..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project_quotation
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project_quotation_advanced
+echo "maintenance_project_quotation_advanced..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_project_quotation_advanced
 
-psql -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f ./3_default_supplier.sql
+psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/3_default_supplier.sql
 
 
 if [ $? != 0 ]; then
@@ -137,8 +126,13 @@ if [ $? != 0 ]; then
     exit $psql_exit_status
 fi
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_serial_number
+echo "maintenance_serial_number..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_serial_number
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_maintenance_serial_number
+echo "elneo_maintenance_serial_number..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_maintenance_serial_number
 
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_default_supplier
+echo "elneo_default_supplier..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_default_supplier
+
+echo "------ MAINTENANCE (FIN) -----"

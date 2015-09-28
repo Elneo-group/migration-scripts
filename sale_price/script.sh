@@ -43,21 +43,19 @@ fi
 
 BASEDIR=$(dirname $0)
 
-echo "------ PURCHASE SALE -----"
+echo "------ SALE PRICE -----"
 echo "Set Vars..."
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 
-echo "Install purchase_sale module..."
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL purchase_sale
+echo "sale_price_export-117..."
+psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/1-sale_price_export-117.sql
 
-echo "0_after.sql..."
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
+echo "2-copy.sh..."
+echo "CONFILE = $CONF_FILE"
+sh $BASEDIR/2-copy.sh $CONF_FILE
 
+echo "3-sale_price_import-119.sql..."
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/3-sale_price_import-119.sql
 
-if [ $? != 0 ]; then
-    echo "psql failed while trying to run this sql script" 1>&2
-    exit $psql_exit_status
-fi
-
-echo "------ PURCHASE SALE (FIN) -----"
+echo "------ SALE PRICE (FIN) -----"
