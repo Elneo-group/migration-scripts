@@ -35,7 +35,7 @@ psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../se
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 
 echo "Install module 'warning'..."
-python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL warning
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL warning
 
 echo "0_after.sql..."
 psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
