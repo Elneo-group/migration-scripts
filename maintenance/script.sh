@@ -55,9 +55,6 @@ echo "PASSWORD = $PASSWORD"
 echo "URL = $URL"
 
 echo "Maintenance..."
-python $BASEDIR/module_update.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_crm
-
-echo "Maintenance..."
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance
 
 echo "0_after.sql..."
@@ -77,6 +74,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL mai
 echo "maintenance_installation_check..."
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_installation_check
 
+echo "1_maintenance_product.sql"
 psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/1_maintenance_product.sql
 
 

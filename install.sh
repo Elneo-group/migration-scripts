@@ -28,7 +28,7 @@ else
 	echo 'Not first install...'	
 fi
 
-for i in `find ./ -type d -and -not -path \*/.\*`
+for i in `find ./ -type d -and -not -path \*/.\* | sort`
 do	
 	if [ $i != './' ]
 	then

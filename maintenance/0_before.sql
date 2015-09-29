@@ -1,3 +1,15 @@
+--add alias column
+DO $$ 
+    BEGIN
+        BEGIN
+		ALTER TABLE res_partner ADD COLUMN alias character varying(255);
+		COMMENT ON COLUMN res_partner.alias IS 'Alias';
+        EXCEPTION
+            	WHEN duplicate_column THEN RAISE NOTICE 'column alias already exists in res_partner.';
+        END;
+    END;
+$$;
+
 DELETE FROM ir_ui_menu WHERE parent_id = 693;
 DELETE FROM ir_ui_menu WHERE id = 693;
 DELETE FROM ir_ui_menu WHERE parent_id = 661;

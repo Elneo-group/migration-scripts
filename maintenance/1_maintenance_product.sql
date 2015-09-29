@@ -11,5 +11,8 @@ END
 $$;
 
 UPDATE stock_picking
- SET sale_id = (SELECT so.id FROM sale_order so JOIN stock_picking sp ON so.procurement_group_id = sp.group_id WHERE sp.id = stock_picking.id)
- WHERE sale_id IS NULL;
+SET sale_id = req.so_id
+FROM 
+(select so.id so_id, p.id pick_id from sale_order so left join stock_picking p on so.procurement_group_id = p.group_id) req
+WHERE
+stock_picking.id = req.pick_id and stock_picking.sale_id is null;
