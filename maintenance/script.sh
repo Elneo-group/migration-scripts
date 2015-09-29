@@ -54,6 +54,8 @@ echo "USER = $USER"
 echo "PASSWORD = $PASSWORD"
 echo "URL = $URL"
 
+echo "Maintenance..."
+python $BASEDIR/module_update.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_crm
 
 echo "Maintenance..."
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance
