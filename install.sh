@@ -28,7 +28,9 @@ else
 	echo 'Not first install...'	
 fi
 
-for i in `find ./ -type d -and -not -path \*/.\* | sort`
+
+#launch all scripts by alphabetical order
+for i in `find ./ -maxdepth 1 -type d -and -not -path \*/.\* | sort`
 do	
 	if [ $i != './' ]
 	then
@@ -40,3 +42,23 @@ do
 		fi
 	fi
 done
+
+BASEDIR=$(dirname $0)
+
+#community modules
+community_modules=$(find $ADDONS_BASE_DIR/community_addons -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
+community_modules_toupdate=$(psql -h 10.0.0.119 -d migrated_2 -U elneo -c "select name from ir_module_module where name in ($community_modules) and state in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
+community_modules_toinstall=$(psql -h 10.0.0.119 -d migrated_2 -U elneo -c "select name from ir_module_module where name in ($community_modules)and state not in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
+echo "update $community_modules_toupdate..."
+python $BASEDIR/module_update.py -d $DATABASE -u $USER -w $PASSWORD -s $URL $community_modules_toupdate
+echo "install $community_modules_toinstall..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL $community_modules_toinstall
+
+#elneo modules
+elneo_modules=$(find $ADDONS_BASE_DIR/elneo-openobject -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
+elneo_modules_toupdate=$(psql -h 10.0.0.119 -d migrated_2 -U elneo -c "select name from ir_module_module where name in ($elneo_modules) and state in ('installed','to update')" -t | xargs printf "%s,")
+elneo_modules_toinstall=$(psql -h 10.0.0.119 -d migrated_2 -U elneo -c "select name from ir_module_module where name in ($elneo_modules)and state not in ('installed','to update')" -t | xargs printf "%s,")
+echo "update $elneo_modules_toupdate..."
+python $BASEDIR/module_update.py -d $DATABASE -u $USER -w $PASSWORD -s $URL $elneo_modules_toupdate
+echo "install $community_modules_toinstall..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL $elneo_modules_toinstall
