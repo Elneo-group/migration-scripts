@@ -28,16 +28,17 @@ else
 	echo 'Not first install...'	
 fi
 
-if $FIRST_INSTALL
-then
-	sh install_scripts.sh ./config-test.conf --first-install
-else
-	sh install_scripts.sh ./config-test.conf
-fi
 
-if $FIRST_INSTALL
-then
-	sh install_modules.sh ./config-test.conf --first-install
-else
-	sh install_modules.sh ./config-test.conf
-fi
+#launch all scripts by alphabetical order
+for i in `find ./ -maxdepth 1 -type d -and -not -path \*/.\* | sort`
+do	
+	if [ $i != './' ]
+	then
+		if $FIRST_INSTALL
+		then
+			sh $i/script.sh $CONF_FILE --first-install
+		else
+			sh $i/script.sh $CONF_FILE
+		fi
+	fi
+done

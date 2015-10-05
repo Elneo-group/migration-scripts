@@ -16,8 +16,8 @@ DELETE FROM ir_ui_menu WHERE parent_id = 661;
 DELETE FROM ir_ui_menu WHERE id = 661;
 DELETE FROM ir_ui_menu WHERE parent_id = 481;
 DELETE FROM ir_ui_menu WHERE id = 481;
-DELETE FROM ir_ui_view WHERE name LIKE '%maintenance%' OR model LIKE '%maintenance%';
-DELETE FROM ir_ui_view WHERE name = 'stock.picking.out.tree';
+--DELETE FROM ir_ui_view WHERE name LIKE '%maintenance%' OR model LIKE '%maintenance%';
+--DELETE FROM ir_ui_view WHERE name = 'stock.picking.out.tree';
 
 UPDATE maintenance_intervention
 SET address_id = rp.id
