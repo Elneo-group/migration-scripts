@@ -42,12 +42,15 @@ else
 fi
 
 BASEDIR=$(dirname $0)
-echo "------ PRODUCT SEARCH -----"
+echo "------ PRODUCT WAREHOUSE DETAIL -----"
 echo "Set Vars..."
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 
+echo 'Install module'
+python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_storage_policy
+
 echo "product_search_function.sql..."
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/1-create_warehouse_detail.sql
 
-echo "------ PRODUCT SEARCH (FIN) -----"
+echo "------ PRODUCT WAREHOUSE DETAIL (FIN) -----"

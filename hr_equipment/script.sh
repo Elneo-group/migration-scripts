@@ -33,10 +33,16 @@ echo "------ HR EQUIPMENT -----"
 echo "Set Vars..."
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
+python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL hr_equipment,elneo_hr
 echo "Create backup... to $DB_BACKUP_PATH_ORIGIN"
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/1-migration_117.sql
 echo 'Transfer backup...'
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:/home/openerp/backups/hr_equipment.backup $DB_OS_USER@$DB_HOST:/home/elneo
+#for remote host
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:/home/openerp/backups/hr_equipment.backup $DB_OS_USER@$DB_HOST:/home/elneo
+
+#for local host
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:/home/openerp/backups/hr_equipment.backup /home/elneo
+
 echo 'Import backup...'
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/2-migration_119.sql
 echo "------ HR EQUIPMENT (FIN) -----"

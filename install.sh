@@ -2,6 +2,8 @@
 set -e
 set -u
 
+date
+
 if [ $# -eq 0 ]
 then
 	echo 'Please set config file as first parameter'
@@ -28,6 +30,9 @@ else
 	echo 'Not first install...'	
 fi
 
+echo "INSTALL SCRIPTS"
+date
+
 if $FIRST_INSTALL
 then
 	sh install_scripts.sh ./config-test.conf --first-install
@@ -35,9 +40,14 @@ else
 	sh install_scripts.sh ./config-test.conf
 fi
 
+echo "INSTALL MODULES"
+date
+
 if $FIRST_INSTALL
 then
 	sh install_modules.sh ./config-test.conf --first-install
 else
 	sh install_modules.sh ./config-test.conf
 fi
+
+date
