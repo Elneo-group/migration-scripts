@@ -225,6 +225,14 @@ from import_procurement_rule_procure_method_storage_policy i
 where i.id = procurement_rule_procure_method_storage_policy.id;
 insert into procurement_rule_procure_method_storage_policy (select * from import_procurement_rule_procure_method_storage_policy where id not in (select id from procurement_rule_procure_method_storage_policy));
 
+
+delete from procurement_rule_procure_method_storage_policy where id not in (select id from import_procurement_rule_procure_method_storage_policy);
+delete from procurement_rule_procure_method where id not in (select id from import_procurement_rule_procure_method);
+delete from procurement_rule where id not in (select id from import_procurement_rule);
+delete from stock_location_route where id not in (select id from import_stock_location_route);
+delete from stock_picking_type where id not in (select id from import_stock_picking_type);
+
+
 DROP TABLE IF EXISTS import_stock_location_route;
 DROP TABLE IF EXISTS import_stock_picking_type;
 DROP TABLE IF EXISTS import_procurement_rule;
