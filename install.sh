@@ -30,37 +30,23 @@ else
 	echo 'Not first install...'	
 fi
 
+
 echo ""
-echo "---------------------------------------------------"
-echo "------------------- SERVER STOP -------------------"
-echo "---------------------------------------------------"
+echo "-----------------------------------------------------"
+echo "------------------- SET MODELS.PY -------------------"
+echo "-----------------------------------------------------"
 echo ""
 date
-service odoo-server stop
-killall python
-
-
-echo ""
-echo "------------------------------------------------"
-echo "------------------- SCRIPT 0 -------------------"
-echo "------------------------------------------------"
-echo ""
-date
-
-if $FIRST_INSTALL
-then
-	sh ./0-cleanup/script.sh ./config-test.conf --first-install
+if [ -f $ADDONS_BASE_DIR/odoo/openerp/models.py.bkp]
+then 
+	echo 'models.py.bkp already exists'
 else
-	sh ./0-cleanup/script.sh ./config-test.conf
+	echo 'backup models.py'
+	cp $ADDONS_BASE_DIR/odoo/openerp/models.py $ADDONS_BASE_DIR/odoo/openerp/models.py.bkp
 fi
+cp models.py $ADDONS_BASE_DIR/odoo/openerp/
 
-echo ""
-echo "----------------------------------------------"
-echo "---------------- SERVER START ----------------"
-echo "----------------------------------------------"
-echo ""
-date
-python odoo/odoo.py --addons-path=/home/elneo/odoo/addons,/home/elneo/elneo-openobject,/home/elneo/community_addons --db_user=odoo --db_password=Newtec68 --db_host=localhost -d migrated_2 $
+
 
 echo ""
 echo "-----------------------------------------------"
@@ -90,13 +76,11 @@ else
 	sh install_modules.sh ./config-test.conf
 fi
 
-date
-
 echo ""
-echo "------------------------------------------------------"
-echo "------------------- SERVER RESTART -------------------"
-echo "------------------------------------------------------"
+echo "-------------------------------------------------------"
+echo "------------------- RESET MODELS.PY -------------------"
+echo "-------------------------------------------------------"
 echo ""
 date
-service odoo-server start
-killall python
+cp $ADDONS_BASE_DIR/odoo/openerp/models.py.bkp $ADDONS_BASE_DIR/odoo/openerp/models.py
+rm $ADDONS_BASE_DIR/odoo/openerp/models.py.bkp

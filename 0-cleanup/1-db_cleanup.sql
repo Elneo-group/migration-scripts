@@ -3,6 +3,8 @@ update ir_cron set active = False;
 update ir_module_module set state = 'uninstalled' where state = 'to upgrade';
 update ir_module_module set state = 'to upgrade' where name = 'account_followup';
 
+delete from ir_model_data where id in (select d.id from ir_model_data d left join ir_model_fields f on (f.id = d.res_id and d.model='ir.model.fields') where d.model='ir.model.fields' and f.id is null);
+
 delete from ir_ui_view where id in 
 (
 select res_id 
