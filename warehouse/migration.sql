@@ -225,6 +225,11 @@ from import_procurement_rule_procure_method_storage_policy i
 where i.id = procurement_rule_procure_method_storage_policy.id;
 insert into procurement_rule_procure_method_storage_policy (select * from import_procurement_rule_procure_method_storage_policy where id not in (select id from procurement_rule_procure_method_storage_policy));
 
+DROP TABLE IF EXISTS import_stock_location_route;
+DROP TABLE IF EXISTS import_stock_picking_type;
+DROP TABLE IF EXISTS import_procurement_rule;
+DROP TABLE IF EXISTS import_procurement_rule_procure_method;
+DROP TABLE IF EXISTS import_procurement_rule_procure_method_storage_policy;
 
 END;
 $$ LANGUAGE plpgsql;
