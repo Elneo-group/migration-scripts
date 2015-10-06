@@ -30,7 +30,43 @@ else
 	echo 'Not first install...'	
 fi
 
-echo "INSTALL SCRIPTS"
+echo ""
+echo "---------------------------------------------------"
+echo "------------------- SERVER STOP -------------------"
+echo "---------------------------------------------------"
+echo ""
+date
+service odoo-server stop
+killall python
+
+
+echo ""
+echo "------------------------------------------------"
+echo "------------------- SCRIPT 0 -------------------"
+echo "------------------------------------------------"
+echo ""
+date
+
+if $FIRST_INSTALL
+then
+	sh ./0-cleanup/script.sh ./config-test.conf --first-install
+else
+	sh ./0-cleanup/script.sh ./config-test.conf
+fi
+
+echo ""
+echo "----------------------------------------------"
+echo "---------------- SERVER START ----------------"
+echo "----------------------------------------------"
+echo ""
+date
+python odoo/odoo.py --addons-path=/home/elneo/odoo/addons,/home/elneo/elneo-openobject,/home/elneo/community_addons --db_user=odoo --db_password=Newtec68 --db_host=localhost -d migrated_2 $
+
+echo ""
+echo "-----------------------------------------------"
+echo "--------------- INSTALL SCRIPTS ---------------"
+echo "-----------------------------------------------"
+echo ""
 date
 
 if $FIRST_INSTALL
@@ -40,7 +76,11 @@ else
 	sh install_scripts.sh ./config-test.conf
 fi
 
-echo "INSTALL MODULES"
+echo ""
+echo "-----------------------------------------------"
+echo "--------------- INSTALL MODULES ---------------"
+echo "-----------------------------------------------"
+echo ""
 date
 
 if $FIRST_INSTALL
@@ -51,3 +91,12 @@ else
 fi
 
 date
+
+echo ""
+echo "------------------------------------------------------"
+echo "------------------- SERVER RESTART -------------------"
+echo "------------------------------------------------------"
+echo ""
+date
+service odoo-server start
+killall python
