@@ -5,3 +5,9 @@ copy discount_type_discount to '/home/openerp/backups/discount_type_discount.bac
 copy product_group to '/home/openerp/backups/product_group.backup';
 copy product_group_discount to '/home/openerp/backups/product_group_discount.backup';
 copy (select id, discount_type_id from res_partner) to '/home/openerp/backups/partner_discount_type.backup';
+
+
+
+
+copy (SELECT * FROM ir_property p where p.name = 'cost_price_product_pricelist' order by res_id) 
+to '/home/openerp/backups/property_cost_price_product_pricelist.backup';

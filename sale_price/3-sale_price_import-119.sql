@@ -148,4 +148,42 @@ copy discount_type_discount from '/home/elneo/discount_type_discount.backup';
 copy product_group_discount from '/home/elneo/product_group_discount.backup';
 copy import_partner_discount_type from '/home/elneo/partner_discount_type.backup';
 
+
+CREATE TEMP TABLE import_ir_property
+(
+  id integer,
+  create_uid integer,
+  create_date timestamp without time zone,
+  write_date timestamp without time zone,
+  write_uid integer,
+  value_integer integer,
+  value_float double precision, -- Value
+  name character varying, -- Name
+  value_text text, -- Value
+  res_id character varying, -- Resource
+  company_id integer, -- Company
+  fields_id integer NOT NULL, -- Field
+  value_datetime timestamp without time zone, -- Value
+  value_binary bytea, -- Value
+  value_reference character varying, -- Value
+  type character varying NOT NULL -- Type
+);
+
+
+copy import_ir_property from '/home/elneo/property_cost_price_product_pricelist.backup';
+
+update import_ir_property set fields_id = f.id from ir_model_fields f where f.name = 'cost_price_product_pricelist' and f.model = 'res.partner';
+
+insert into ir_property(create_uid, create_date, write_date, write_uid, 
+       value_float, name, value_text, res_id, company_id, fields_id, 
+       value_datetime, value_binary, value_reference, type, value_integer)
+select i.create_uid, i.create_date, i.write_date, i.write_uid, 
+       i.value_float, i.name, i.value_text, i.res_id, i.company_id, i.fields_id, 
+       i.value_datetime, i.value_binary, i.value_reference, i.type, i.value_integer 
+from import_ir_property i left join ir_property p on p.res_id = i.res_id where p.id is null;
+
+
 update res_partner set discount_type_id = i.discount_type_id from import_partner_discount_type i where i.partner_id = res_partner.id;
+
+
+update product_template set cost_price = pp.cost_price from product_product pp where pp.product_tmpl_id = product_template.id and pp.cost_price != 0 and pp.cost_price != product_template.cost_price and product_template.cost_price is not null;

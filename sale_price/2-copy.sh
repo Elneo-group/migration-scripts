@@ -48,5 +48,6 @@ scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/discount_type_disc
 scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group.backup $DB_BACKUP_PATH
 scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group_discount.backup $DB_BACKUP_PATH
 scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/partner_discount_type.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/property_cost_price_product_pricelist.backup $DB_BACKUP_PATH
 
 echo "...end of Copy."
