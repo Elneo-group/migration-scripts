@@ -38,7 +38,6 @@ psql -h $DB_HOST -d $DATABASE -U $DB_USER -c "update ir_ui_view set arch = repla
 echo "Uninstall modules..."
 python $BASEDIR/module_uninstall.py -d $DATABASE -u $USER -w $PASSWORD -s $URL "marketing,project,point_of_sale"
 
-
 #community modules
 community_modules=$(find $ADDONS_BASE_DIR/community_addons -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
 community_modules_toupdate=$(psql -h $DB_HOST -d $DATABASE -U $DB_USER -c "select name from ir_module_module where name in ($community_modules) and state in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
