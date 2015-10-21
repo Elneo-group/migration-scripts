@@ -187,3 +187,10 @@ update res_partner set discount_type_id = i.discount_type_id from import_partner
 
 
 update product_template set cost_price = pp.cost_price from product_product pp where pp.product_tmpl_id = product_template.id and pp.cost_price != 0 and pp.cost_price != product_template.cost_price and product_template.cost_price is not null;
+
+update product_template set 
+sale_price_fixed = p.sale_price_fixed, 
+compute_sale_price = p.compute_sale_price, 
+sale_price_seller = p.sale_price_seller
+from product_product p 
+where p.product_tmpl_id = product_template.id;
