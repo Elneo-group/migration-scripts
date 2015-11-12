@@ -189,7 +189,7 @@ ALTER FUNCTION product_search_column(text)
 
 -- Function: fill_trg_ir_translation()
 
--- DROP FUNCTION fill_trg_ir_translation();
+DROP FUNCTION fill_trg_ir_translation();
 
 CREATE OR REPLACE FUNCTION fill_trg_ir_translation()
   RETURNS trigger AS
@@ -228,7 +228,7 @@ ALTER FUNCTION fill_trg_ir_translation()
 
 -- Function: fill_trg_product_product()
 
--- DROP FUNCTION fill_trg_product_product();
+DROP FUNCTION fill_trg_product_product();
 
 CREATE OR REPLACE FUNCTION fill_trg_product_product()
   RETURNS trigger AS
@@ -252,7 +252,7 @@ ALTER FUNCTION fill_trg_product_product()
   OWNER TO odoo;
 -- Function: fill_trg_product_supplierinfo()
 
--- DROP FUNCTION fill_trg_product_supplierinfo();
+DROP FUNCTION fill_trg_product_supplierinfo();
 
 CREATE OR REPLACE FUNCTION fill_trg_product_supplierinfo()
   RETURNS trigger AS
@@ -282,7 +282,7 @@ ALTER FUNCTION fill_trg_product_supplierinfo()
 
 -- Function: fill_trg_product_template()
 
--- DROP FUNCTION fill_trg_product_template();
+DROP FUNCTION fill_trg_product_template();
 
 CREATE OR REPLACE FUNCTION fill_trg_product_template()
   RETURNS trigger AS
