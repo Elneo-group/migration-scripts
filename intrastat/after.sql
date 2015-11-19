@@ -104,7 +104,6 @@ FROM
 	
 WHERE account_invoice_line.id = req2.id;
 
-
 -- IMPORT FORMER INTRASTAT DECLARATIONS
 
 INSERT INTO l10n_be_intrastat_product_declaration(id, company_id,num_decl_lines,total_amount,state,type,revision,reporting_level,note,company_country_code,year,month,year_month,action,create_date,create_uid,write_date,write_uid)
