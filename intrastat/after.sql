@@ -52,6 +52,7 @@ UPDATE res_company SET intrastat_arrivals = 'standard';
 UPDATE res_company SET intrastat_dispatches = 'standard';
 
 UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
+UPDATE account_invoice SET intrastat_transaction_id = 1 WHERE company_id = 1;
 
 
 -- GET HS CODE FOR INVOICES
@@ -160,3 +161,7 @@ FROM report_intrastat_belgium_line ribl
 JOIN hs_code hc ON hc.local_code = ribl.intrastat_code
 RIGHT OUTER JOIN report_intrastat_belgium rib ON rib.id = ribl.parent_id
 WHERE ribl.id IS NOT NULL;
+
+-- LINK ATTACHMENTS TO NEW MODEL
+
+UPDATE ir_attachment SET res_model = 'l10n.be.intrastat.product.declaration' WHERE res_model = 'report.intrastat.belgium';
