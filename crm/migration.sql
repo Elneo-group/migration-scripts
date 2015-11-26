@@ -14,3 +14,8 @@ update account_invoice set partner_id = p.parent_id from res_partner p
 where account_invoice.partner_id = p.id
 and (not p.is_company or p.is_company is null) and p.parent_id is not null;
 
+
+-- Set good members in sale teams
+delete from sale_member_rel;
+insert into sale_member_rel (section_id, member_id) 
+select default_section_id, id from res_users where default_section_id is not null;
