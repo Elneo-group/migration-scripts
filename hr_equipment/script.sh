@@ -43,10 +43,13 @@ echo 'Transfer backup...'
 echo 'Import backup...'
 scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:/home/openerp/backups/hr_equipment.backup /home/elneo
 
+echo 'req 119'
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/2-migration_119.sql
+
 echo 'install module'
 python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL hr_equipment,elneo_hr
 
-echo 'req 119'
-psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/2-migration_119.sql
+echo 'req 119 after'
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/3-migration_119-after.sql
 
 echo "------ HR EQUIPMENT (FIN) -----"
