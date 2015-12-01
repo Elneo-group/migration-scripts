@@ -50,7 +50,7 @@ psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKU
 echo 'Install module'
 python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_storage_policy
 
-echo "product_search_function.sql..."
+echo "1-create_warehouse_detail.sql..."
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/1-create_warehouse_detail.sql
 
 echo "------ PRODUCT WAREHOUSE DETAIL (FIN) -----"
