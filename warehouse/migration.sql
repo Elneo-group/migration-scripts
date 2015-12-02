@@ -34,6 +34,29 @@ WITH (
   OIDS=FALSE
 );
 
+
+CREATE TABLE import_stock_picking_type_sequence
+(
+  id serial NOT NULL,
+  create_uid integer,
+  create_date timestamp without time zone,
+  write_date timestamp without time zone,
+  write_uid integer,
+  code character varying(64), -- Code
+  name character varying(64) NOT NULL, -- Name
+  number_next integer NOT NULL, -- Next Number
+  company_id integer, -- Company
+  padding integer NOT NULL, -- Number padding
+  number_increment integer NOT NULL, -- Increment Number
+  prefix character varying, -- Prefix
+  active boolean, -- Active
+  suffix character varying, -- Suffix
+  implementation character varying NOT NULL
+)
+WITH (
+  OIDS=FALSE
+);
+
 CREATE TABLE import_stock_picking_type 
 (
   id serial NOT NULL,
@@ -50,7 +73,9 @@ CREATE TABLE import_stock_picking_type
   active boolean, -- Active
   name character varying NOT NULL, -- Picking Type Name
   return_picking_type_id integer, -- Picking Type for Returns
-  default_location_src_id integer -- Default Source Location
+  default_location_src_id integer, -- Default Source Location
+  special boolean, -- Special
+  need_carrier boolean
 )
 WITH (
   OIDS=FALSE
@@ -133,6 +158,9 @@ WITH (
 select val||'stock_location_route.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
 EXECUTE format('copy import_stock_location_route from ''%s''',DB_BACKUP_FILE);
 
+select val||'stock_picking_type_sequence.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
+EXECUTE format('copy import_stock_picking_type_sequence from ''%s''',DB_BACKUP_FILE);
+
 select val||'stock_picking_type.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
 EXECUTE format('copy import_stock_picking_type from ''%s''',DB_BACKUP_FILE);
 
@@ -162,6 +190,23 @@ from import_stock_location_route i
 where i.id = stock_location_route.id;
 insert into stock_location_route (select * from import_stock_location_route where id not in (select id from stock_location_route));
 
+update ir_sequence set 
+  code = i.code,
+  name = i.name,
+  number_next = i.number_next,
+  company_id = i.company_id, 
+  padding = i.padding, 
+  number_increment = i.number_increment,
+  prefix = i.prefix, 
+  active = i.active,
+  suffix = i.suffix,
+  implementation = i.implementation
+from import_stock_picking_type_sequence i 
+where i.id = ir_sequence.id;
+insert into ir_sequence (select * from import_stock_picking_type_sequence where id not in (select id from import_stock_picking_type_sequence));
+
+
+insert into stock_picking_type (select * from import_stock_picking_type where id not in (select id from stock_picking_type));
 update stock_picking_type set 
 code = i.code,
   sequence = i.sequence,
@@ -172,10 +217,12 @@ code = i.code,
   active = i.active,
   name = i.name,
   return_picking_type_id = i.return_picking_type_id,
-  default_location_src_id = i.default_location_src_id
+  default_location_src_id = i.default_location_src_id, 
+  special = i.special, 
+  need_carrier = i.need_carrier
 from import_stock_picking_type i
 where i.id = stock_picking_type.id;
-insert into stock_picking_type (select * from import_stock_picking_type where id not in (select id from stock_picking_type));
+
 
 update procurement_rule set 
 name = i.name,
@@ -238,6 +285,7 @@ DROP TABLE IF EXISTS import_stock_picking_type;
 DROP TABLE IF EXISTS import_procurement_rule;
 DROP TABLE IF EXISTS import_procurement_rule_procure_method;
 DROP TABLE IF EXISTS import_procurement_rule_procure_method_storage_policy;
+--DROP TABLE IF EXISTS import_stock_picking_type_sequence;
 
 END;
 $$ LANGUAGE plpgsql;

@@ -32,23 +32,23 @@ psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKU
 
 echo "Copy backups..."
 #FOR REMOTE HOST
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_discount_type.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/customer_discount_exception.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/elneo_autocompute_saleprice_category_coefficientlist.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/discount_type_discount.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group_discount.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/partner_discount_type.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
-scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/property_cost_price_product_pricelist.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_discount_type.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/customer_discount_exception.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/elneo_autocompute_saleprice_category_coefficientlist.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/discount_type_discount.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group_discount.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/partner_discount_type.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
+#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/property_cost_price_product_pricelist.backup $DB_OS_USER@$DB_HOST:$DB_BACKUP_PATH
 
 #FOR LOCAL HOST
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_discount_type.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/customer_discount_exception.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/elneo_autocompute_saleprice_category_coefficientlist.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/discount_type_discount.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group_discount.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/partner_discount_type.backup $DB_BACKUP_PATH
-#scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/property_cost_price_product_pricelist.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_discount_type.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/customer_discount_exception.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/elneo_autocompute_saleprice_category_coefficientlist.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/discount_type_discount.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/product_group_discount.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/partner_discount_type.backup $DB_BACKUP_PATH
+scp $DB_OS_USER_ORIGIN@$DB_HOST_ORIGIN:$DB_BACKUP_PATH_ORIGIN/property_cost_price_product_pricelist.backup $DB_BACKUP_PATH
 
 echo "...end of Copy."
