@@ -233,5 +233,9 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL web
 
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL web_sheet_full_width_selective
 
+echo '8_res_country.sql...'
+psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/8_res_country.sql
+
+
 
 echo "------ NOVIAT_ACCOUNT (FIN) -----"
