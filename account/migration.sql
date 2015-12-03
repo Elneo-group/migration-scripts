@@ -7,7 +7,6 @@ INSERT INTO ir_property (create_uid, create_date, name, res_id, company_id, fiel
 
 SELECT ip.create_uid, ip.create_date, 'property_supplier_payment_term', ip.res_id, company_id, req3.id, ip.value_reference, 'many2one' FROM ir_property ip ,
 (SELECT id FROM res_partner WHERE supplier = True) req1,
-(SELECT res_id FROM ir_property WHERE name = 'property_supplier_payment_term') req2,
 (SELECT id FROM ir_model_fields WHERE model = 'res.partner' AND name = 'property_supplier_payment_term') req3
 
 
