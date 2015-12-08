@@ -261,11 +261,11 @@ $BODY$
         product_id int;
     BEGIN	
 	IF (TG_OP = 'DELETE') THEN		
-		select into product_id p.id from product_supplierinfo ps left join product_product p on p.product_tmpl_id = ps.product_id where ps.id = old.id;
+		select into product_id p.id from product_supplierinfo ps left join product_product p on p.product_tmpl_id = ps.product_tmpl_id where ps.id = old.id;
 		perform fill_product_search_field(product_id);
 		return old;
         ELSIF (TG_OP = 'UPDATE' OR TG_OP = 'INSERT') THEN	
-		select into product_id p.id from product_supplierinfo ps left join product_product p on p.product_tmpl_id = ps.product_id where ps.id = NEW.id;
+		select into product_id p.id from product_supplierinfo ps left join product_product p on p.product_tmpl_id = ps.product_tmpl_id where ps.id = NEW.id;
 		perform fill_product_search_field(product_id);
 		return new;
         END IF;   
