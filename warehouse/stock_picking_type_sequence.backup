@@ -1,0 +1,18 @@
+111	1	2015-10-06 06:56:40.062624	2015-10-28 13:55:34.399062	1	declarantseq	Declarantseq	1	1	5	1	\N	t	\N	standard
+98	1	2015-09-01 21:17:30.852661	2015-10-29 10:30:28.100969	28	\N	Awans Séquence de préparation	1	1	5	1	Aw\\PICK\\	t	\N	standard
+106	1	2015-09-01 21:17:30.852661	2015-09-01 21:17:30.852661	1	\N	Landefeld Sequence out	1	1	5	1	WH003/OUT/	t	\N	standard
+100	1	2015-09-01 21:17:30.852661	2015-11-17 07:51:02.400108	28	\N	Wetteren Séquence d'entrée	1	1	5	1	We\\IN\\	t	\N	standard
+104	1	2015-09-01 21:17:30.852661	2015-11-17 07:51:02.400108	28	\N	Wetteren Séquence interne	1	1	5	1	We\\INT\\	t	\N	standard
+101	1	2015-09-01 21:17:30.852661	2015-11-17 07:51:02.400108	28	\N	Wetteren Séquence de sortie	1	1	5	1	We\\OUT\\	t	\N	standard
+95	1	2015-09-01 21:17:30.852661	2015-10-29 10:30:28.100969	28	\N	Awans Séquence d'entrée	1	1	5	1	Aw\\IN\\	t	\N	standard
+96	1	2015-09-01 21:17:30.852661	2015-10-29 10:30:28.100969	28	\N	Awans Séquence de sortie	1	1	5	1	Aw\\OUT\\	t	\N	standard
+102	1	2015-09-01 21:17:30.852661	2015-11-17 07:51:02.400108	28	\N	Wetteren Séquence de colisage	1	1	5	1	We\\PACK\\	t	\N	standard
+107	1	2015-09-01 21:17:30.852661	2015-09-01 21:17:30.852661	1	\N	Landefeld Sequence packing	1	1	5	1	WH003/PACK/	t	\N	standard
+99	1	2015-09-01 21:17:30.852661	2015-10-29 10:30:28.100969	28	\N	Awans Séquence interne	1	1	5	1	Aw\\INT\\	t	\N	standard
+103	1	2015-09-01 21:17:30.852661	2015-11-17 07:51:02.400108	28	\N	Wetteren Séquence de préparation	1	1	5	1	We\\PICK\\	t	\N	standard
+105	1	2015-09-01 21:17:30.852661	2015-09-01 21:17:30.852661	1	\N	Landefeld Sequence in	1	1	5	1	WH003/IN/	t	\N	standard
+116	105	2015-11-27 12:46:05.597107	2015-11-27 12:46:05.597107	105	\N	Retours Fournisseurs	1	1	5	1	RETSUP/	t	\N	standard
+97	1	2015-09-01 21:17:30.852661	2015-10-29 10:30:28.100969	28	\N	Awans Séquence de colisage	1	1	5	1	Aw\\PACK\\	t	\N	standard
+108	1	2015-09-01 21:17:30.852661	2015-09-01 21:17:30.852661	1	\N	Landefeld Sequence picking	1	1	5	1	WH003/PICK/	t	\N	standard
+109	1	2015-09-01 21:17:30.852661	2015-09-01 21:17:30.852661	1	\N	Landefeld Sequence internal	1	1	5	1	WH003/INT/	t	\N	standard
+117	105	2015-11-27 12:46:54.899328	2015-11-27 12:46:54.899328	105	\N	Retours Clients	1	1	5	1	RETCUS/	t	\N	standard
