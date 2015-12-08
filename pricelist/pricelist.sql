@@ -6,6 +6,8 @@ BEGIN
 
 -- Import cost pricelists
 
+--à executer sur 117 : copy (select * from ir_property where name = 'cost_price_product_pricelist') to '/home/elneo/ir_property_cost_pricelist.backup';
+
 DROP TABLE IF EXISTS import_ir_property;
 CREATE TABLE import_ir_property
 (

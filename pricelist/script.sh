@@ -50,7 +50,7 @@ psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKU
 echo 'Install module'
 python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_cost_price
 
-echo "web_shop.sql..."
+echo "pricelist.sql..."
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/pricelist.sql
 
 echo "------ WEB SHOP (FIN) -----"
