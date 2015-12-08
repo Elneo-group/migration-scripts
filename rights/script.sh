@@ -42,7 +42,7 @@ else
 fi
 
 BASEDIR=$(dirname $0)
-echo "------ WEB SHOP -----"
+echo "------ RIGHTS -----"
 echo "Set Vars..."
 psql -h $DB_HOST_ORIGIN -d $DATABASE_ORIGIN -U $DB_USER_ORIGIN -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKUP_PATH_ORIGIN=$DB_BACKUP_PATH_ORIGIN -v DB_BACKUP_PATH=$DB_BACKUP_PATH
@@ -51,4 +51,4 @@ psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKU
 echo "rights.sql..."
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/rights.sql
 
-echo "------ WEB SHOP (FIN) -----"
+echo "------ RIGHTS (FIN) -----"
