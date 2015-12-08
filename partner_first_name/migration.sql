@@ -6,6 +6,6 @@ update res_partner set ref = name where ref = 'TO CORRECT' and name is not null;
 update res_partner set active = False where id in
 (
 select c.id from res_partner c left join res_partner p on c.parent_id = p.id where c.name = 'PARTNER WITH NO NAME' and c.street = p.street
-)
+);
 
 update res_partner set name = NULL where name = 'PARTNER WITH NO NAME';
