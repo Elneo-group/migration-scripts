@@ -136,6 +136,10 @@ delete from stock_picking_type where warehouse_id = 3;
 
 delete from stock_warehouse where id = 3;
 
+-- Set good route for sale order lines 
+update sale_order_line set route_id = (select id from stock_location_route where name = 'Make To Order') where type = 'make_to_order';
+update sale_order_line set route_id = (select id from stock_location_route where name = 'From stock') where type = 'make_to_stock';
+
 END;
 $$ LANGUAGE plpgsql;
 
