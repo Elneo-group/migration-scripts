@@ -35,7 +35,7 @@ INSERT INTO ir_property(
             value_float, value_text, res_id, company_id, fields_id, value_datetime, 
             value_binary, value_reference, type, value_integer, name)
 (select create_uid,create_date,write_date,write_uid,value_integer,
-	value_float,value_text, res_id, company_id, (select id from ir_model_fields where name = 'cost_price_product_pricelist'), value_datetime, 
+	value_float,value_text, res_id, company_id, (select id from ir_model_fields where name = 'cost_price_product_pricelist' and model = 'res.partner'), value_datetime, 
 	value_binary, value_reference, type, value_integer, name
 from import_ir_property);
 
