@@ -70,6 +70,8 @@ and ir_model_data.model = 'ir.model'
 );
 
 
+update crm_case_section set name = 'Compressors FR', code = 'COMP-A' where id = 1;
+
 
 /*update ir_module_module set state = 'uninstalled' where name ilike 'elneo%';
 update ir_module_module set state = 'uninstalled' where name ilike 'technofluid%';
