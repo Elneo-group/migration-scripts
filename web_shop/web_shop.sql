@@ -1,0 +1,1 @@
+update product_template set web_shop_product = pp.web_shop_product from product_product pp where pp.product_tmpl_id = product_template.id;
