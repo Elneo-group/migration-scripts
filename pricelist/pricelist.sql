@@ -39,6 +39,22 @@ INSERT INTO ir_property(
 	value_binary, value_reference, type, value_integer, name
 from import_ir_property);
 
+
+--Delete doublons
+delete from ir_property where id in
+(
+select min(id) from ir_property where name = 'property_product_pricelist' group by res_id having count(id) > 1
+);
+delete from ir_property where id in
+(
+select min(id) from ir_property where name = 'property_product_pricelist_purchase' group by res_id having count(id) > 1
+);
+delete from ir_property where id in
+(
+select min(id) from ir_property where name = 'cost_price_product_pricelist' group by res_id having count(id) > 1
+);
+
+
 END;
 $$ LANGUAGE plpgsql;
 
