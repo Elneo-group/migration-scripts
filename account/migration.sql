@@ -24,7 +24,7 @@ WHERE ai.type = 'in_invoice'
 AND rp.commercial_partner_id IS NOT NULL
 AND rp.commercial_partner_id <> ai.partner_id) req1
 
-WHERE req1.in_id = account_invoice.id
+WHERE req1.in_id = account_invoice.id;
 
 -- CORRIGE LE COMPTE IBAN
 UPDATE res_partner_bank SET acc_number = req1.iban_old60
