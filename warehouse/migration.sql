@@ -1,40 +1,12 @@
-DO $$
+﻿DO $$
 DECLARE 
 DB_BACKUP_FILE varchar;
 BEGIN
 
-delete from stock_picking_type where id = 16;
 
---create import tables
-DROP TABLE IF EXISTS import_stock_location_route;
-DROP TABLE IF EXISTS import_stock_picking_type;
-DROP TABLE IF EXISTS import_procurement_rule;
-DROP TABLE IF EXISTS import_procurement_rule_procure_method;
-DROP TABLE IF EXISTS import_procurement_rule_procure_method_storage_policy;
+-- Import sequences of picking types
 
-CREATE TABLE import_stock_location_route
-(
-  id serial NOT NULL,
-  supplier_wh_id integer, -- Supplier Warehouse
-  create_uid integer, -- Created by
-  create_date timestamp without time zone, -- Created on
-  name character varying NOT NULL, -- Route Name
-  sequence integer, -- Sequence
-  warehouse_selectable boolean, -- Applicable on Warehouse
-  company_id integer, -- Company
-  supplied_wh_id integer, -- Supplied Warehouse
-  product_selectable boolean, -- Applicable on Product
-  product_categ_selectable boolean, -- Applicable on Product Category
-  write_date timestamp without time zone, -- Last Updated on
-  active boolean, -- Active
-  write_uid integer, 
-  sale_selectable boolean
-)
-WITH (
-  OIDS=FALSE
-);
-
-
+DROP TABLE IF EXISTS import_stock_picking_type_sequence;
 CREATE TABLE import_stock_picking_type_sequence
 (
   id serial NOT NULL,
@@ -56,7 +28,17 @@ CREATE TABLE import_stock_picking_type_sequence
 WITH (
   OIDS=FALSE
 );
+select val||'stock_picking_type_sequence.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
+EXECUTE format('copy import_stock_picking_type_sequence from ''%s''',DB_BACKUP_FILE);
 
+insert into ir_sequence(code, name, number_next, company_id, padding, number_increment, prefix, active, suffix, implementation) 
+(select code, name, number_next, company_id, padding, number_increment, prefix, active, suffix, implementation from import_stock_picking_type_sequence);
+
+RAISE NOTICE '--1--';
+
+-- INSERT PICKING TYPES
+DROP TABLE IF EXISTS import_stock_picking_type;
+RAISE NOTICE '--2--';
 CREATE TABLE import_stock_picking_type 
 (
   id serial NOT NULL,
@@ -80,212 +62,80 @@ CREATE TABLE import_stock_picking_type
 WITH (
   OIDS=FALSE
 );
-
-
-CREATE TABLE import_procurement_rule
-(
-  id serial NOT NULL,
-  create_uid integer, -- Created by
-  create_date timestamp without time zone, -- Created on
-  name character varying NOT NULL, -- Name
-  sequence integer, -- Sequence
-  company_id integer, -- Company
-  write_uid integer, -- Last Updated by
-  action character varying NOT NULL, -- Action
-  write_date timestamp without time zone, -- Last Updated on
-  active boolean, -- Active
-  group_id integer, -- Fixed Procurement Group
-  group_propagation_option character varying, -- Propagation of Procurement Group
-  partner_address_id integer, -- Partner Address
-  location_id integer, -- Procurement Location
-  location_src_id integer, -- Source Location
-  picking_type_id integer, -- Picking Type
-  delay integer, -- Number of Days
-  warehouse_id integer, -- Served Warehouse
-  propagate boolean, -- Propagate cancel and split
-  procure_method character varying NOT NULL, -- Move Supply Method
-  route_sequence numeric, -- Route Sequence
-  route_id integer, -- Route
-  propagate_warehouse_id integer, -- Warehouse to Propagate
-  invoice_state character varying, -- Invoice Status
-  autovalidate_dest_move boolean
-)
-WITH (
-  OIDS=FALSE
-);
-
-
-
-
-CREATE TABLE import_procurement_rule_procure_method
-(
-  id serial NOT NULL,
-  create_uid integer, -- Created by
-  use_if_enough_stock boolean, -- Use if enough stock
-  location_src_id integer, -- Source location
-  name character varying(255), -- Name
-  sequence integer, -- Sequence
-  sub_route_id integer, -- Sub-route
-  partner_address_id integer, -- Partner address
-  write_uid integer, -- Last Updated by
-  delay integer, -- Delay (days)
-  write_date timestamp without time zone, -- Last Updated on
-  procure_method character varying NOT NULL, -- Move Supply Method
-  create_date timestamp without time zone, -- Created on
-  rule_id integer, -- Rule
-  warehouse_src_id integer, -- Source warehouse
-  sub_route_quantity_check_location_id integer
-)
-WITH (
-  OIDS=FALSE
-);
-
-CREATE TABLE import_procurement_rule_procure_method_storage_policy
-(
-  id serial NOT NULL,
-  create_uid integer, -- Created by
-  create_date timestamp without time zone, -- Created on
-  name character varying, -- Storage policy
-  write_uid integer, -- Last Updated by
-  write_date timestamp without time zone, -- Last Updated on
-  procure_method_id integer
-)
-WITH (
-  OIDS=FALSE
-);
-
-
-select val||'stock_location_route.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
-EXECUTE format('copy import_stock_location_route from ''%s''',DB_BACKUP_FILE);
-
-select val||'stock_picking_type_sequence.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
-EXECUTE format('copy import_stock_picking_type_sequence from ''%s''',DB_BACKUP_FILE);
-
+RAISE NOTICE '--3--';
 select val||'stock_picking_type.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
+RAISE NOTICE '--4--';
 EXECUTE format('copy import_stock_picking_type from ''%s''',DB_BACKUP_FILE);
+RAISE NOTICE '--5--';
 
+
+
+insert into stock_picking_type (id, code, sequence, color, default_location_dest_id, warehouse_id, sequence_id, active, name, return_picking_type_id, default_location_src_id, special, need_carrier) 
+(
+	select i.id, i.code, 
+	i.sequence, 
+	i.color, 
+	i.default_location_dest_id,
+	case when i.warehouse_id in (select id from stock_warehouse) then i.warehouse_id else null end,
+	min(seq.id),
+	i.active,
+	i.name,
+	i.return_picking_type_id,
+	i.default_location_src_id, 
+	i.special, 
+	i.need_carrier
+	from import_stock_picking_type i left join import_stock_picking_type_sequence iseq left join ir_sequence seq on iseq.name = seq.name on i.sequence_id = iseq.id
+	where i.id not in (select id from stock_picking_type) group by i.id, i.code, i.sequence, i.color, i.default_location_dest_id, i.warehouse_id, i.active,	i.name,	i.return_picking_type_id, i.default_location_src_id, i.special, i.need_carrier
+);
+
+RAISE NOTICE '--6--';
+
+
+-- Import stock_location_route
+delete from stock_location_route;
+select val||'stock_location_route.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
+EXECUTE format('copy stock_location_route from ''%s''',DB_BACKUP_FILE);
+
+RAISE NOTICE '--7--';
+
+-- Import procurement_rule
+
+delete from procurement_rule;
 select val||'procurement_rule.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
-EXECUTE format('copy import_procurement_rule from ''%s''',DB_BACKUP_FILE);
+EXECUTE format('copy procurement_rule from ''%s''',DB_BACKUP_FILE);
 
+RAISE NOTICE '--8--';
+
+-- Import procurement_rule_procure_method
+delete from procurement_rule_procure_method;
 select val||'procurement_rule_procure_method.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
-EXECUTE format('copy import_procurement_rule_procure_method from ''%s''',DB_BACKUP_FILE);
+EXECUTE format('copy procurement_rule_procure_method from ''%s''',DB_BACKUP_FILE);
 
+-- Import procurement_rule_procure_method_storage_policy
+delete from procurement_rule_procure_method_storage_policy;
 select val||'procurement_rule_procure_method_storage_policy.backup' from import_var where name = 'DB_BACKUP_PATH' into DB_BACKUP_FILE;
-EXECUTE format('copy import_procurement_rule_procure_method_storage_policy from ''%s''',DB_BACKUP_FILE);
+EXECUTE format('copy procurement_rule_procure_method_storage_policy from ''%s''',DB_BACKUP_FILE);
 
 
-update stock_location_route set 
-supplier_wh_id = i.supplier_wh_id,
-name = i.name, 
-sequence = i.sequence,
-warehouse_selectable = i.warehouse_selectable,
-company_id = i.company_id,
-supplied_wh_id = i.supplied_wh_id, 
-product_selectable = i.product_selectable, 
-product_categ_selectable = i.product_categ_selectable, 
-write_date = i.write_date, 
-active = i.active, 
-sale_selectable = i.sale_selectable
-from import_stock_location_route i
-where i.id = stock_location_route.id;
-insert into stock_location_route (select * from import_stock_location_route where id not in (select id from stock_location_route));
+--Set good warehouse for users
+update res_users set default_warehouse_id = 1 where id in (1,5,7,10,13,14,16,17,20,21,22,24,25,26,28,29,30,31,32,34,35,37,38,41,42,49,50,52,54,55,56,57,58,59,60,61,66,68,69,70,71,72,73,74,75,85,88,90,96,97,98,99,100,103,105,108,111,121,122);
+update res_users set default_warehouse_id = 2 where id not in (1,5,7,10,13,14,16,17,20,21,22,24,25,26,28,29,30,31,32,34,35,37,38,41,42,49,50,52,54,55,56,57,58,59,60,61,66,68,69,70,71,72,73,74,75,85,88,90,96,97,98,99,100,103,105,108,111,121,122);
 
-update ir_sequence set 
-  code = i.code,
-  name = i.name,
-  number_next = i.number_next,
-  company_id = i.company_id, 
-  padding = i.padding, 
-  number_increment = i.number_increment,
-  prefix = i.prefix, 
-  active = i.active,
-  suffix = i.suffix,
-  implementation = i.implementation
-from import_stock_picking_type_sequence i 
-where i.id = ir_sequence.id;
-insert into ir_sequence (select * from import_stock_picking_type_sequence where id not in (select id from import_stock_picking_type_sequence));
+--Delete warehouse landefeld 
+update sale_order set warehouse_id = u.default_warehouse_id from res_users u where u.id = sale_order.user_id and sale_order.warehouse_id = 3;
 
+update stock_picking set picking_type_id = 6 where id in (select pick.id from stock_picking pick left join sale_order s on s.id = pick.sale_id left join purchase_order p on p.id = pick.purchase_id where pick.picking_type_id = 11 and (s.warehouse_id = 2 or p.warehouse_id = 2));
+update stock_picking set picking_type_id = 8 where id in (select pick.id from stock_picking pick left join sale_order s on s.id = pick.sale_id left join purchase_order p on p.id = pick.purchase_id where pick.picking_type_id = 13 and (s.warehouse_id = 2 or p.warehouse_id = 2));
+update stock_picking set picking_type_id = 7 where id in (select pick.id from stock_picking pick left join sale_order s on s.id = pick.sale_id left join purchase_order p on p.id = pick.purchase_id where pick.picking_type_id = 12 and (s.warehouse_id = 2 or p.warehouse_id = 2));
 
-insert into stock_picking_type (select * from import_stock_picking_type where id not in (select id from stock_picking_type));
-update stock_picking_type set 
-code = i.code,
-  sequence = i.sequence,
-  color = i.color,
-  default_location_dest_id = i.default_location_dest_id,
-  warehouse_id = i.warehouse_id,
-  sequence_id = i.sequence_id,
-  active = i.active,
-  name = i.name,
-  return_picking_type_id = i.return_picking_type_id,
-  default_location_src_id = i.default_location_src_id, 
-  special = i.special, 
-  need_carrier = i.need_carrier
-from import_stock_picking_type i
-where i.id = stock_picking_type.id;
+update stock_picking set picking_type_id = 1 where id in (select pick.id from stock_picking pick left join sale_order s on s.id = pick.sale_id left join purchase_order p on p.id = pick.purchase_id where pick.picking_type_id = 11);
+update stock_picking set picking_type_id = 3 where id in (select pick.id from stock_picking pick left join sale_order s on s.id = pick.sale_id left join purchase_order p on p.id = pick.purchase_id where pick.picking_type_id = 13);
+update stock_picking set picking_type_id = 2 where id in (select pick.id from stock_picking pick left join sale_order s on s.id = pick.sale_id left join purchase_order p on p.id = pick.purchase_id where pick.picking_type_id = 12);
 
+delete from stock_picking_type where warehouse_id = 3;
 
-update procurement_rule set 
-name = i.name,
-  sequence = i.sequence,
-  company_id = i.company_id,
-  action = i.action,
-  active = i.active,
-  group_id = i.group_id,
-  group_propagation_option = i.group_propagation_option,
-  partner_address_id = i.partner_address_id,
-  location_id = i.location_id,
-  location_src_id  = i.location_src_id,
-  picking_type_id = i.picking_type_id,
-  delay = i.delay,
-  warehouse_id = i.warehouse_id,
-  propagate = i.propagate,
-  procure_method = i.procure_method,
-  route_sequence = i.route_sequence,
-  route_id = i.route_id,
-  propagate_warehouse_id = i.propagate_warehouse_id,
-  invoice_state = i.invoice_state,
-  autovalidate_dest_move = i.autovalidate_dest_move
-from import_procurement_rule i
-where i.id = procurement_rule.id;
-insert into procurement_rule (select * from import_procurement_rule where id not in (select id from procurement_rule));
-
-update procurement_rule_procure_method set 
-use_if_enough_stock = i.use_if_enough_stock,
-  location_src_id = i.location_src_id,
-  name = i.name,
-  sequence = i.sequence,
-  sub_route_id = i.sub_route_id,
-  partner_address_id = i.partner_address_id,
-  delay = i.delay,
-  procure_method = i.procure_method,
-  rule_id = i.rule_id,
-  warehouse_src_id = i.warehouse_src_id,
-  sub_route_quantity_check_location_id = i.sub_route_quantity_check_location_id
-from import_procurement_rule_procure_method i
-where i.id = procurement_rule_procure_method.id;
-insert into procurement_rule_procure_method (select * from import_procurement_rule_procure_method where id not in (select id from procurement_rule_procure_method));
-
-update procurement_rule_procure_method_storage_policy set 
-name = i.name,
-procure_method_id = i.procure_method_id
-from import_procurement_rule_procure_method_storage_policy i
-where i.id = procurement_rule_procure_method_storage_policy.id;
-insert into procurement_rule_procure_method_storage_policy (select * from import_procurement_rule_procure_method_storage_policy where id not in (select id from procurement_rule_procure_method_storage_policy));
-
-
-delete from procurement_rule_procure_method_storage_policy where id not in (select id from import_procurement_rule_procure_method_storage_policy);
-delete from procurement_rule_procure_method where id not in (select id from import_procurement_rule_procure_method);
-delete from procurement_rule where id not in (select id from import_procurement_rule);
-delete from stock_location_route where id not in (select id from import_stock_location_route);
-delete from stock_picking_type where id not in (select id from import_stock_picking_type);
-
-
-DROP TABLE IF EXISTS import_stock_location_route;
-DROP TABLE IF EXISTS import_stock_picking_type;
-DROP TABLE IF EXISTS import_procurement_rule;
-DROP TABLE IF EXISTS import_procurement_rule_procure_method;
-DROP TABLE IF EXISTS import_procurement_rule_procure_method_storage_policy;
---DROP TABLE IF EXISTS import_stock_picking_type_sequence;
+delete from stock_warehouse where id = 3;
 
 END;
 $$ LANGUAGE plpgsql;
+
