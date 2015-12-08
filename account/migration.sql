@@ -14,7 +14,6 @@ WHERE ip.name = 'property_payment_term'
 AND ip.res_id = 'res.partner,' || req1.id
 AND ip.res_id NOT IN (SELECT res_id FROM ir_property WHERE name = 'property_supplier_payment_term');
 
-
 -- CORRIGE LE PARTNER_ID DANS LES FACTURES FOURNISSEUR (PREND LE COMMERCIAL_PARTNER_ID SI IL EST DIFFERENT)
 UPDATE account_invoice SET partner_id = req1.comm_id
 FROM
