@@ -17,8 +17,6 @@ $BODY$
 -- ALTER FUNCTION fill_partner_search_field(integer)
 --  OWNER TO odoo;
 
-
-
 update res_partner set search_field = null;
 
 select fill_all_partner_search();
