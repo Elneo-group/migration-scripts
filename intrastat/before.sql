@@ -19,3 +19,35 @@ DELETE FROM ir_ui_view WHERE id = 2634;
 DELETE FROM ir_ui_view WHERE id = 2635;
 DELETE FROM ir_ui_view WHERE id = 2636;
 DELETE FROM ir_ui_view WHERE id = 2642;
+DELETE FROM ir_ui_view WHERE id = 2626;
+
+
+-- intrastat columns
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='account_invoice' and column_name='intrastat') THEN
+ALTER TABLE account_invoice ADD COLUMN intrastat character varying;
+COMMENT ON COLUMN account_invoice.intrastat IS 'Intrastat';
+END IF;                                      
+END
+$$;
+
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='account_invoice' and column_name='intrastat_transaction_id') THEN
+ALTER TABLE account_invoice ADD COLUMN intrastat_transaction_id integer;
+COMMENT ON COLUMN account_invoice.intrastat_transaction_id IS 'Intrastat';
+END IF;                                      
+END
+$$;
+
+-- UPDATE
+
+UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
+UPDATE account_invoice SET intrastat_transaction_id = 1 WHERE company_id = 1;
