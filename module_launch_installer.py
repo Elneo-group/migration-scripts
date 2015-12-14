@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+"""Install a module"""
+
+import xmlrpclib
+import argparse
+import getpass
+
+parser = argparse.ArgumentParser()
+# Connection args
+parser.add_argument('-d', '--database', help="Use DB as the database name",
+                    action='store', metavar='DB', default=getpass.getuser())
+parser.add_argument('-u', '--user', help="Use USER as the database user name",
+                    action='store', metavar='USER', default='admin')
+parser.add_argument('-w', '--password',
+                    help="Use PASSWORD as the database password.",
+                    action='store', metavar='PASSWORD', default='admin')
+parser.add_argument('-s', '--url',
+                    help="Point to the web services hosted at URL",
+                    action='store', metavar='URL',
+                    default='http://localhost:8069')
+
+parser.add_argument('-f','--func', help="Installer Function",
+                    action='store', metavar='FUNCTION',default='')
+
+parser.add_argument('-a','--args', help="Launch Installer",
+                    action='store', metavar='ARGS',default='')
+# Feature args
+parser.add_argument('installer', help="Launch Installer",
+                    action='store', metavar='INSTALLER')
+
+
+
+args = vars(parser.parse_args())
+
+# Log in
+ws_common = xmlrpclib.ServerProxy(args['url'] + '/xmlrpc/common')
+uid = ws_common.login(args['database'], args['user'], args['password'])
+print "Logged in to the common web service."
+# Get the object proxy
+ws_object = xmlrpclib.ServerProxy(args['url'] + '/xmlrpc/object')
+print "Connected to the object web service."
+
+
+installer_args = args['args'].split(';')
+final_args = {}
+
+for arg in installer_args:
+    key = arg.split('=')[0]
+    value = arg.split('=')[1]
+    final_args[key] = value
+    
+
+# Create Wizard
+res_ids = ws_object.execute(
+    args['database'], uid, args['password'],
+    args['installer'], 'create', final_args)
+
+
+# Update the module lsit
+print "Launch Installer"
+ws_object.execute(
+    args['database'], uid, args['password'],
+    args['installer'], "execute", res_ids)
+
+
+print "All done."
