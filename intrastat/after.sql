@@ -51,10 +51,6 @@ UPDATE res_company SET intrastat = 'standard';
 UPDATE res_company SET intrastat_arrivals = 'standard';
 UPDATE res_company SET intrastat_dispatches = 'standard';
 
-UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
-UPDATE account_invoice SET intrastat_transaction_id = 1 WHERE company_id = 1;
-
-
 -- GET HS CODE FOR INVOICES
 CREATE OR REPLACE FUNCTION GetProdIntrastat(ProdId Integer) RETURNS Integer AS
 $$
