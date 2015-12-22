@@ -32,7 +32,7 @@ BASEDIR=$(dirname $0)
 echo "------ INTRASTAT -----"
 
 echo 'before.sql'
-psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/before.sql
+#psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/before.sql
 
 python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be_intrastat_product
 
