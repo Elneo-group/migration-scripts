@@ -34,7 +34,7 @@ COMMENT ON COLUMN account_invoice.intrastat IS 'Intrastat';
 END IF;                                      
 END
 $$;
-
+/*
 DO
 $$
 BEGIN
@@ -46,7 +46,7 @@ COMMENT ON COLUMN account_invoice.intrastat_transaction_id IS 'Intrastat';
 END IF;                                      
 END
 $$;
-
+*/
 -- UPDATE
 
 UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
