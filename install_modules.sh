@@ -39,7 +39,7 @@ echo "Uninstall modules..."
 python $BASEDIR/module_uninstall.py -d $DATABASE -u $USER -w $PASSWORD -s $URL "marketing,project,point_of_sale,sale_order_attachment"
 
 #community modules
-community_modules=$(find $ADDONS_BASE_DIR/community_addons -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
+community_modules=$(find $ADDONS_DIR/community_addons -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
 community_modules_toupdate=$(psql -h $DB_HOST -d $DATABASE -U $DB_USER -c "select name from ir_module_module where name in ($community_modules) and state in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
 community_modules_toinstall=$(psql -h $DB_HOST -d $DATABASE -U $DB_USER -c "select name from ir_module_module where name in ($community_modules)and state not in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
 echo "update community modules : $community_modules_toupdate..."
@@ -58,7 +58,7 @@ fi
 
 
 #elneo modules
-elneo_modules=$(find $ADDONS_BASE_DIR/elneo-openobject -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
+elneo_modules=$(find $ADDONS_DIR/elneo-openobject -maxdepth 1 -type d -printf "%f\n" -and -not -path \*/.\* | sort | xargs printf "'%s'," | sed 's/.\{1\}$//g')
 elneo_modules_toupdate=$(psql -h $DB_HOST -d $DATABASE -U $DB_USER -c "select name from ir_module_module where name in ($elneo_modules) and state in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
 elneo_modules_toinstall=$(psql -h $DB_HOST -d $DATABASE -U $DB_USER -c "select name from ir_module_module where name in ($elneo_modules)and state not in ('installed','to update')" -t | xargs printf "%s," | sed 's/.\{1\}$//g')
 echo "update elneo modules : $elneo_modules_toupdate..."

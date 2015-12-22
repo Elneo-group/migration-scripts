@@ -82,5 +82,5 @@ echo "------------------- RESET MODELS.PY -------------------"
 echo "-------------------------------------------------------"
 echo ""
 date
-cp $ADDONS_BASE_DIR/odoo/openerp/models.py.bkp $ADDONS_BASE_DIR/odoo/openerp/models.py
+cp $ADDONS_BASE_DIR/openerp/models.py.bkp $ADDONS_BASE_DIR/odoo/openerp/models.py
 rm $ADDONS_BASE_DIR/odoo/openerp/models.py.bkp
