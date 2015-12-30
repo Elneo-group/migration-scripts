@@ -37,14 +37,14 @@ echo "------------------- SET MODELS.PY -------------------"
 echo "-----------------------------------------------------"
 echo ""
 date
-if [ -f $ADDONS_BASE_DIR/openerp/models.py.bkp]
-then 
-	echo 'models.py.bkp already exists'
-else
-	echo 'backup models.py'
-	cp $ADDONS_BASE_DIR/openerp/models.py $ADDONS_BASE_DIR/openerp/models.py.bkp
-fi
-cp models.py $ADDONS_BASE_DIR/openerp/
+#if [ -f $ADDONS_BASE_DIR/openerp/models.py.bkp]
+#then 
+#	echo 'models.py.bkp already exists'
+#else
+#	echo 'backup models.py'
+#	cp $ADDONS_BASE_DIR/openerp/models.py $ADDONS_BASE_DIR/openerp/models.py.bkp
+#fi
+#cp models.py $ADDONS_BASE_DIR/openerp/
 
 
 
