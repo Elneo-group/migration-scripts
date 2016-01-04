@@ -2,11 +2,8 @@
 4	1	2015-02-17 09:04:18.06377	WH: Output -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	9	11	2	0	1	t	make_to_order	20.00	4	\N		\N
 7	1	2015-02-17 09:04:18.06377	WH002: Input -> Output	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	17	24	8	0	2	t	make_to_order	20.00	7	\N		\N
 8	1	2015-02-17 09:04:18.06377	WH002: Output -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	9	17	7	0	2	t	make_to_order	20.00	7	\N		\N
-11	1	2015-02-17 09:04:18.06377	WH003: Input -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	9	27	13	0	3	t	make_to_order	20.00	10	\N		\N
-12	1	2015-02-17 09:04:18.06377	WH003: Customers -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	9	9	12	0	3	t	make_to_order	20.00	10	\N		\N
 28	1	2015-08-14 08:10:15.813573	Awans : send from Wetteren	20	\N	1	move	2015-08-14 08:10:15.813573	t	\N	propagate	\N	20	16	7	0	1	t	make_to_stock	0.00	14	\N	\N	f
 29	1	2015-08-14 08:10:15.813573	AWANS: Stock -> Output (Transfert Wetteren)	20	\N	1	move	2015-08-14 08:10:15.813573	t	\N	propagate	\N	11	15	5	0	1	t	make_to_order	0.00	14	\N	\N	f
-9	1	2015-02-17 09:04:18.06377	WH003: Suppliers -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	t	\N	propagate	\N	9	8	12	0	3	t	make_to_stock	0.00	\N	\N		\N
 18	1	2015-04-17 13:15:36.231129	WH: Output -> Customers	20	\N	1	move	2015-04-17 13:15:36.231129	t	\N	propagate	\N	9	11	2	0	1	t	make_to_order	0.00	\N	\N	\N	\N
 5	1	2015-02-17 09:04:18.06377	WH002: Stock Wetteren -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	t	\N	propagate	\N	9	16	7	0	2	t	make_to_stock	0.00	\N	\N		\N
 17	1	2015-04-17 13:15:36.231129	WH: Stock Liege -> Output	20	\N	1	move	2015-04-17 13:15:36.231129	t	\N	propagate	\N	11	15	5	0	1	t	make_to_stock	0.00	\N	\N	\N	\N
@@ -21,10 +18,13 @@
 27	1	2015-08-14 08:10:15.813573	Awans : receive from Wetteren	20	\N	1	move	2015-08-14 08:10:15.813573	t	\N	propagate	\N	15	20	1	0	1	t	make_to_order	0.00	14	\N	\N	t
 30	1	2015-08-14 08:13:45.081944	Awans: Buy	20	\N	1	buy	2015-08-14 08:13:45.081944	t	\N	propagate	\N	15	\N	1	0	1	t	make_to_stock	0.00	13	\N	\N	t
 31	1	2015-08-14 08:13:45.081944	AWANS: Partial -> Output MTO	20	\N	1	moves	2015-08-14 08:13:45.081944	t	\N	propagate	\N	11	\N	5	0	1	t	make_to_stock	0.00	13	\N	\N	f
-32	1	2015-08-14 08:13:45.081944	WETTE: Partial -> Output MTO	20	\N	1	move	2015-08-14 08:13:45.081944	t	\N	propagate	\N	17	16	19	0	2	t	make_to_order	0.00	13	\N	\N	f
-33	1	2015-08-14 08:13:45.081944	Wetteren: Buy	20	\N	1	buy	2015-08-14 08:13:45.081944	t	\N	propagate	\N	16	\N	6	0	2	t	make_to_stock	0.00	13	\N	\N	f
 36	42	2015-08-19 08:24:15.705009	WETTEREN: Stock -> Output (Transfert Awans)	20	\N	42	move	2015-08-19 08:29:35.556323	t	\N	propagate	\N	17	16	19	0	2	t	make_to_order	0.00	15	\N	\N	f
 37	1	2015-08-21 14:39:48.839098	Awans:  Acheter	20	\N	1	buy	2015-08-21 14:39:48.839098	t	\N	propagate	\N	15	\N	1	0	1	t	make_to_stock	5.00	11	\N	\N	\N
 16	1	2015-04-02 09:09:59.479016	Supplier → Customer	20	\N	1	buy	2015-08-25 14:26:51.515093	t	\N	propagate	\N	9	8	17	0	\N	t	make_to_stock	3.00	12	\N	\N	\N
 34	42	2015-08-19 08:24:15.705009	Wetteren receive from Awans	20	\N	1	move	2015-08-26 08:40:20.619546	t	\N	propagate	\N	16	20	6	0	2	t	make_to_order	0.00	15	\N	\N	t
 35	42	2015-08-19 08:24:15.705009	Awans send to Wetteren	20	\N	1	move	2015-08-26 08:40:20.619546	t	\N	propagate	\N	20	15	2	0	2	t	make_to_stock	0.00	15	\N	\N	f
+12	1	2015-02-17 09:04:18.06377	WH003: Customers -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	9	9	\N	0	\N	t	make_to_order	20.00	10	\N		\N
+9	1	2015-02-17 09:04:18.06377	WH003: Suppliers -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	t	\N	propagate	\N	9	8	\N	0	\N	t	make_to_stock	0.00	\N	\N		\N
+11	1	2015-02-17 09:04:18.06377	WH003: Input -> Customers	20	\N	1	move	2015-02-17 09:04:18.06377	f	\N	propagate	\N	9	27	\N	0	\N	t	make_to_order	20.00	10	\N		\N
+32	1	2015-08-14 08:13:45.081944	WETTE: Partial -> Output MTO	20	\N	1	moves	2016-01-04 10:52:17.397585	t	\N	propagate	\N	17	16	19	0	2	t	make_to_order	0.00	13	\N	\N	f
+33	1	2015-08-14 08:13:45.081944	Wetteren: Buy	20	\N	1	buy	2016-01-04 10:52:17.397585	t	\N	propagate	\N	16	\N	6	0	2	t	make_to_stock	0.00	13	\N	\N	t
