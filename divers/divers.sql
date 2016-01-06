@@ -30,3 +30,8 @@ update ir_sequence set implementation = 'no_gap';
 
 
 update stock_picking set section_id = null;
+
+
+
+-- SET GOOD CATEGORY FOR UNIT OF MEASURE PCE
+UPDATE product_uom SET category_id = 1 WHERE id = 1;
