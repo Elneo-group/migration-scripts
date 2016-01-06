@@ -27,3 +27,6 @@ and (u.id, g.id) not in (select uid, gid from res_groups_users_rel)
 
 --Set good sequence implementation
 update ir_sequence set implementation = 'no_gap';
+
+
+update stock_picking set section_id = null;

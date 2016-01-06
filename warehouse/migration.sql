@@ -4,6 +4,19 @@ DB_BACKUP_FILE varchar;
 BEGIN
 
 
+/*
+----
+EXPORT
+----
+copy procurement_rule to '/home/elneo/git/migration-scripts/warehouse/procurement_rule.backup';
+copy procurement_rule_procure_method to '/home/elneo/git/migration-scripts/warehouse/procurement_rule_procure_method.backup';
+copy procurement_rule_procure_method_storage_policy to '/home/elneo/git/migration-scripts/warehouse/procurement_rule_procure_method_storage_policy.backup';
+copy stock_location_route to '/home/elneo/git/migration-scripts/warehouse/stock_location_route.backup';
+copy stock_picking_type to '/home/elneo/git/migration-scripts/warehouse/stock_picking_type.backup';
+copy (select * from ir_sequence where id in (select sequence_id from stock_picking_type)) to '/home/elneo/git/migration-scripts/warehouse/stock_picking_type_sequence.backup';
+----
+*/
+
 -- Import sequences of picking types
 
 DROP TABLE IF EXISTS import_stock_picking_type_sequence;
