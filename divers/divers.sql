@@ -35,3 +35,13 @@ update stock_picking set section_id = null;
 
 -- SET GOOD CATEGORY FOR UNIT OF MEASURE PCE
 UPDATE product_uom SET category_id = 1 WHERE id = 1;
+
+
+-- Set default order_policy (sales)
+update ir_values set value = 'S''picking''
+p0
+.' where name = 'order_policy';
+
+
+--delete predefined filters
+delete from ir_filters where name like 'Unassigned%';
