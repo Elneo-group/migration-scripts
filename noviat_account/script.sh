@@ -168,6 +168,8 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL acc
 
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL account_overdue
 
+python $BASEDIR/module_uninstall.py -d $DATABASE -u $USER -w $PASSWORD -s $URL account_asset
+
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL account_asset_management_xls
 
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL account_invoice_line_import
