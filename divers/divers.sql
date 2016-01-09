@@ -45,3 +45,12 @@ p0
 
 --delete predefined filters
 delete from ir_filters where name like 'Unassigned%';
+
+
+-- UPDATE PURCHASE LINES SET CANCEL IF PURCHASE IS CANCELLED
+UPDATE purchase_order_line SET state = 'cancel'
+WHERE id IN
+(SELECT pol.id FROM purchase_order_line pol
+JOIN purchase_order po ON pol.order_id = po.id
+WHERE po.state = 'cancel'
+AND pol.state != 'cancel');
