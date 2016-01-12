@@ -31,3 +31,19 @@ FROM
 (SELECT iban_old60, id FROM res_partner_bank
 WHERE state = 'iban' AND iban_old60 IS NOT NULL) req1
 WHERE req1.id = res_partner_bank.id;
+
+
+-- AJOUTE LE REGIME FISCAL PAR DEFAUT POUR LES CLIENTS
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT 1 
+               FROM ir_property
+               WHERE name = 'property_account_position' AND res_id IS NULL AND fields_id = 1560 AND company_id = 1) THEN
+
+INSERT INTO ir_property (name, company_id, fields_id,res_id, value_reference, type, create_uid)
+VALUES ('property_account_position',1,1560,NULL,'account.fiscal.position,5','many2one',1);
+
+END IF;
+END
+$$;
