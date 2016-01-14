@@ -43,6 +43,11 @@ COMMENT ON COLUMN elneo_autocompute_saleprice_category_coefficientlist.categ_id 
 COMMENT ON COLUMN elneo_autocompute_saleprice_category_coefficientlist.partner_id IS 'Partner';
 COMMENT ON COLUMN elneo_autocompute_saleprice_category_coefficientlist.is_brutprice IS 'Is Same as Brut Price';
 
+
+ALTER TABLE product_template ADD COLUMN cost_price double precision;
+COMMENT ON COLUMN product_template.cost_price IS 'Cost price';
+
+
 ALTER TABLE product_discount_type DROP COLUMN create_uid;
 
 ALTER TABLE product_discount_type ADD COLUMN create_uid integer;
