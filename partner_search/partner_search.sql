@@ -1,3 +1,5 @@
+ALTER TABLE res_partner ADD COLUMN search_field character varying(4096);
+COMMENT ON COLUMN res_partner.search_field IS 'Search';
 
 CREATE OR REPLACE FUNCTION fill_partner_search_field(IN integer, OUT res integer)
   RETURNS integer AS
