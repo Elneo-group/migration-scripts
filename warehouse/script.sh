@@ -36,6 +36,9 @@ psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/../set_var.sql -v DB_BACKU
 
 cp $BASEDIR/*.backup $DB_BACKUP_PATH/
 
+echo 'install sale_outgoing_picking_type'
+python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL sale_outgoing_picking_type
+
 echo 'migration.sql'
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/migration.sql
 echo "------ WAREHOUSE (FIN) -----"

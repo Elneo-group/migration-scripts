@@ -44,6 +44,9 @@ fi
 BASEDIR=$(dirname $0)
 echo "------ PRICELIST HISTORY -----"
 
+echo 'install product_price_history'
+python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL product_price_history
+
 echo "pricelist_history.sql..."
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/pricelist_history.sql
 
