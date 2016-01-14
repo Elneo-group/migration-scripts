@@ -53,7 +53,7 @@ set -u
 
 
 echo '0_before.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_before.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_before.sql
 
 
 if [ $? != 0 ]; then
@@ -64,7 +64,7 @@ fi
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL module_install_enhancements
 
 echo '1_uninstall_l10n_be.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/1_uninstall_l10n_be.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/1_uninstall_l10n_be.sql
 
 
 if [ $? != 0 ]; then
@@ -76,7 +76,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_account_translate
 
 echo '2_update_model_data.sql...'
-psql -h $DB_HOST -d $DATABASE -f $BASEDIR/2_update_model_data.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/2_update_model_data.sql
 
 
 if [ $? != 0 ]; then
@@ -87,7 +87,7 @@ fi
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be_partner
 
 echo '3_update_bank_statement.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/3_update_bank_statement.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/3_update_bank_statement.sql
 
 
 if [ $? != 0 ]; then
@@ -99,7 +99,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL acc
 
 
 echo '4_coda_before.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_coda_before.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_coda_before.sql
 
 
 if [ $? != 0 ]; then
@@ -111,7 +111,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be_coda_pain
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be_coda_sale
 
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_coda_after.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_coda_after.sql
 
 
 if [ $? != 0 ]; then
@@ -125,12 +125,12 @@ python $BASEDIR/module_update.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be_invoice_layout
 
 echo '4_1_account_financial.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_1_account_financial.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_1_account_financial.sql
 
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL account_financial_report_webkit_xls
 
 echo '5_account_pain.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/5_account_pain.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/5_account_pain.sql
 
 
 if [ $? != 0 ]; then
@@ -150,7 +150,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL acc
 
 
 echo '6_account_bank_statement_menu.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/6_account_bank_statement_menu.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/6_account_bank_statement_menu.sql
 
 
 if [ $? != 0 ]; then
@@ -185,7 +185,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL acc
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL account_move_import
 
 echo '7_account_line_balance.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/7_account_line_balance.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/7_account_line_balance.sql
 
 
 if [ $? != 0 ]; then
@@ -236,7 +236,7 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL web
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL web_sheet_full_width_selective
 
 echo '8_res_country.sql...'
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/8_res_country.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/8_res_country.sql
 
 
 

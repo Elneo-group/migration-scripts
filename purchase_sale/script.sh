@@ -52,7 +52,7 @@ echo "Install purchase_sale module..."
 python ./module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL purchase_sale
 
 echo "0_after.sql..."
-psql -h $DB_HOST -d $DATABASE -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/0_after.sql
 
 
 if [ $? != 0 ]; then
