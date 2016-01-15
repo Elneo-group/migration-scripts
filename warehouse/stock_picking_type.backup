@@ -1,24 +1,26 @@
-2	outgoing	2015-12-08 19:05:51.751709	4	3	1	1	9	1	97	2015-12-08 19:05:51.751709	t	Delivery Orders	1	15	\N	\N
 4	internal	2015-12-08 19:05:51.751709	3	3	1	1	15	1	98	2015-12-08 19:05:51.751709	f	Pack	\N	23	\N	\N
-7	outgoing	2015-12-08 19:05:51.751709	8	4	1	1	9	2	102	2015-12-08 19:05:51.751709	t	Delivery Orders	6	16	\N	\N
-6	incoming	2015-12-08 19:05:51.751709	5	4	1	1	16	2	101	2015-12-08 19:05:51.751709	t	Receipts	7	8	\N	\N
 9	internal	2015-12-08 19:05:51.751709	7	4	1	1	16	2	103	2015-12-08 19:05:51.751709	f	Pack	\N	26	\N	\N
-1	incoming	2015-12-08 19:05:51.751709	1	3	1	1	15	1	96	2015-12-30 09:31:24.208253	t	Receipts	2	8	t	\N
-19	internal	\N	\N	\N	\N	\N	17	2	143	\N	t	Wetteren: Pick	\N	16	\N	\N
 31	incoming	\N	\N	\N	\N	\N	15	1	149	\N	t	Retours Clients	\N	9	\N	\N
-20	outgoing	\N	4	3	\N	\N	9	1	139	\N	t	Livraison par le vendeur	1	11	t	\N
-22	outgoing	\N	4	3	\N	\N	9	1	139	\N	t	Vérification ADM	1	11	t	t
-28	outgoing	\N	8	4	\N	\N	9	2	137	\N	t	Delivery Orders	6	16	\N	\N
-26	outgoing	\N	8	4	\N	\N	9	2	137	\N	t	Delivery Orders	6	16	\N	\N
-23	outgoing	\N	4	3	\N	\N	9	1	139	\N	t	Montage	1	11	t	\N
 33	incoming	\N	\N	\N	\N	\N	16	2	149	\N	t	Customer Returns	\N	9	\N	\N
 30	outgoing	\N	\N	\N	\N	\N	8	1	145	\N	t	Retours Fournisseurs	\N	15	\N	\N
-25	outgoing	\N	8	4	\N	\N	9	2	137	\N	t	Delivery Orders	6	16	\N	\N
 17	incoming	\N	\N	\N	\N	\N	9	\N	112	\N	t	Dropship	\N	8	\N	\N
-27	outgoing	\N	8	4	\N	\N	9	2	137	\N	t	Delivery Orders	6	16	\N	\N
-32	outgoing	\N	\N	\N	\N	\N	8	2	145	\N	t	Supplier Returns	\N	16	\N	\N
-21	outgoing	\N	4	3	\N	\N	9	1	139	\N	t	Enlèvement par le client	31	11	t	f
-3	internal	2015-12-08 19:05:51.751709	2	3	1	1	15	1	100	2015-12-08 19:05:51.751709	f	Internal Transfers	\N	15	\N	\N
-8	internal	2015-12-08 19:05:51.751709	6	4	1	1	16	2	105	2015-12-08 19:05:51.751709	f	Internal Transfers	\N	16	\N	\N
-5	internal	2015-12-08 19:05:51.751709	2	3	1	1	23	1	99	2015-12-08 19:05:51.751709	t	Pick	\N	15	\N	\N
-10	internal	2015-12-08 19:05:51.751709	6	4	1	1	26	2	104	2015-12-08 19:05:51.751709	t	Pick	\N	16	\N	\N
+1	incoming	2015-12-08 19:05:51.751709	1	3	42	1	15	1	138	2016-01-04 14:29:14.299686	t	Receipts	2	8	\N	\N
+3	internal	2015-12-08 19:05:51.751709	2	3	42	1	15	1	142	2016-01-04 14:30:39.639389	t	Internal Transfers	\N	15	\N	\N
+23	outgoing	\N	4	3	42	\N	9	1	159	2016-01-04 14:31:23.108611	t	Montage	1	11	t	\N
+21	outgoing	\N	4	3	42	\N	9	1	159	2016-01-04 14:31:34.019024	t	Enlèvement par le client	31	11	t	f
+20	outgoing	\N	4	3	42	\N	9	1	159	2016-01-04 14:31:43.621829	t	Livraison par le vendeur	1	11	t	\N
+22	outgoing	\N	4	3	42	\N	9	1	159	2016-01-04 14:31:52.893997	t	Vérification ADM	1	11	t	t
+6	incoming	2015-12-08 19:05:51.751709	5	4	42	1	16	2	138	2016-01-04 14:32:11.230119	t	Receipts	7	8	\N	\N
+8	internal	2015-12-08 19:05:51.751709	6	4	42	1	16	2	142	2016-01-04 14:32:51.595631	t	Internal Transfers	\N	16	\N	\N
+19	internal	\N	\N	\N	42	\N	17	2	142	2016-01-04 14:37:22.510372	t	Wetteren: Pick	\N	16	\N	\N
+5	internal	2015-12-08 19:05:51.751709	2	3	28	1	23	1	142	2016-01-11 14:00:30.49804	t	Réservation	\N	15	\N	\N
+18	outgoing	2016-01-11 14:07:09.642933	\N	\N	28	28	9	1	159	2016-01-11 14:07:09.642933	t	Livraison décalée	1	11	t	t
+2	outgoing	2015-12-08 19:05:51.751709	4	3	42	1	9	1	159	2016-01-11 14:26:59.926262	t	Delivery Orders	1	11	\N	t
+28	outgoing	\N	8	4	28	\N	9	2	159	2016-01-11 14:29:42.559628	t	Delivery Orders	6	17	\N	t
+26	outgoing	\N	8	4	28	\N	9	2	159	2016-01-11 14:29:58.852459	t	Goederen worden geleverd door verkoper	6	17	t	\N
+25	outgoing	\N	8	4	28	\N	9	2	159	2016-01-11 14:30:15.026832	t	Goederen worden opgehaald door klant	6	17	t	\N
+27	outgoing	\N	8	4	28	\N	9	2	159	2016-01-11 14:30:44.699028	t	Maintenance assembly	6	17	t	\N
+10	internal	2015-12-08 19:05:51.751709	6	4	28	1	26	2	142	2016-01-11 14:31:07.20019	t	Reservation	\N	16	\N	\N
+32	incoming	\N	\N	\N	28	\N	8	2	145	2016-01-11 14:31:49.833507	t	Supplier Returns	\N	16	\N	\N
+7	outgoing	2015-12-08 19:05:51.751709	8	4	28	1	9	2	159	2016-01-11 14:32:15.303115	t	Uitgestede levering	6	17	t	t
+24	outgoing	2016-01-11 14:34:17.89072	\N	\N	28	28	9	2	159	2016-01-11 14:34:17.89072	t	Verificatie ADM	6	17	t	t

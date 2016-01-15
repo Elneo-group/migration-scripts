@@ -1,16 +1,8 @@
-96	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Awans Sequence in	1	1	5	1	WH/IN/	t	\N	no_gap
-98	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Awans Sequence packing	1	1	5	1	WH/PACK/	t	\N	no_gap
-100	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Awans Sequence internal	1	1	5	1	WH/INT/	t	\N	no_gap
-101	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Wetteren Sequence in	1	1	5	1	WH002/IN/	t	\N	no_gap
-103	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Wetteren Sequence packing	1	1	5	1	WH002/PACK/	t	\N	no_gap
-104	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Wetteren Sequence picking	1	1	5	1	WH002/PICK/	t	\N	no_gap
-105	1	2015-12-08 19:05:51.751709	2015-12-08 19:05:51.751709	1	\N	Wetteren Sequence internal	1	1	5	1	WH002/INT/	t	\N	no_gap
+138	\N	\N	2016-01-04 14:41:01.170477	42	\N	Magasin Séquence d'entrée	32288	1	5	1	IN/	t	\N	no_gap
+142	\N	\N	2016-01-04 14:41:22.695836	42	\N	Magasin Séquence interne	44592	1	5	1	INT/	t	\N	no_gap
+159	\N	\N	2016-01-04 14:41:50.797253	42	\N	Magasin Séquence de sortie	93274	1	5	1	OUT/	t	\N	no_gap
 112	1	2015-12-22 14:20:51.761605	2015-12-22 15:13:51.803611	1	declarantseq	Declarantseq	1	1	5	1	\N	t	\N	no_gap
-137	\N	\N	\N	\N	\N	Wetteren Séquence de sortie	1	1	5	1	We\\OUT\\	t	\N	no_gap
-139	\N	\N	\N	\N	\N	Awans Séquence de sortie	1	1	5	1	Aw\\OUT\\	t	\N	no_gap
+98	1	2015-12-08 19:05:51.751709	2015-12-30 14:15:15.072963	1	\N	Awans Sequence packing	1	1	5	1	Aw\\PACK\\	t	\N	no_gap
 145	\N	\N	\N	\N	\N	Retours Fournisseurs	1	1	5	1	RETSUP/	t	\N	no_gap
 149	\N	\N	\N	\N	\N	Retours Clients	1	1	5	1	RETCUS/	t	\N	no_gap
-143	\N	\N	\N	\N	\N	Wetteren Séquence de préparation	3	1	5	1	We\\PICK\\	t	\N	no_gap
-102	1	2015-12-08 19:05:51.751709	2016-01-04 09:16:10.995804	1	\N	Wetteren Sequence out	7	1	5	1	WH002/OUT/	t	\N	no_gap
-99	1	2015-12-08 19:05:51.751709	2016-01-04 09:20:00.869369	1	\N	Awans Sequence picking	3	1	5	1	WH/PICK/	t	\N	no_gap
-97	1	2015-12-08 19:05:51.751709	2016-01-04 09:20:39.9442	1	\N	Awans Sequence out	3	1	5	1	WH/OUT/	t	\N	no_gap
+103	1	2015-12-08 19:05:51.751709	2015-12-30 14:15:19.682864	1	\N	Wetteren Sequence packing	1	1	5	1	We\\PACK\\	t	\N	no_gap
