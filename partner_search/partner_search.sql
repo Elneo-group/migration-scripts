@@ -1,6 +1,8 @@
 ALTER TABLE res_partner ADD COLUMN search_field character varying(4096);
 COMMENT ON COLUMN res_partner.search_field IS 'Search';
 
+
+
 CREATE OR REPLACE FUNCTION fill_partner_search_field(IN integer, OUT res integer)
   RETURNS integer AS
 $BODY$     
@@ -16,8 +18,26 @@ and res_partner.id = $1 RETURNING res_partner.id;
 $BODY$
   LANGUAGE sql VOLATILE
   COST 100;
--- ALTER FUNCTION fill_partner_search_field(integer)
---  OWNER TO odoo;
+
+
+
+CREATE OR REPLACE FUNCTION fill_all_partner_search(OUT id integer)
+  RETURNS SETOF integer AS
+$BODY$   
+    DECLARE 
+        r RECORD;    
+    BEGIN    
+	FOR r IN SELECT res_partner.id FROM res_partner where active and search_field is null
+	LOOP		
+		PERFORM fill_partner_search_field(r.id);
+	END LOOP;
+	RETURN;
+    END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
 
 update res_partner set search_field = null;
 

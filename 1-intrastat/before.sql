@@ -50,4 +50,3 @@ $$;
 -- UPDATE
 update account_invoice set intrastat_transaction_id = null where intrastat_transaction_id is not null;
 UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
-UPDATE account_invoice SET intrastat_transaction_id = 1 WHERE company_id = 1;
