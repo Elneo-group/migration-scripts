@@ -72,6 +72,14 @@ and ir_model_data.model = 'ir.model'
 
 update crm_case_section set name = 'Compressors FR', code = 'COMP-A' where id = 1;
 
+update maintenance_intervention set address_id = req.inst from 
+(
+select interv.id interv, inst.id inst 
+from maintenance_intervention interv 
+left join maintenance_installation inst on interv.installation_id = inst.id
+where interv.address_id != inst.address_id
+) req
+where req.interv = maintenance_intervention.id;
 
 /*update ir_module_module set state = 'uninstalled' where name ilike 'elneo%';
 update ir_module_module set state = 'uninstalled' where name ilike 'technofluid%';
