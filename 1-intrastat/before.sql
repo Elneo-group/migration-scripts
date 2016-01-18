@@ -50,6 +50,24 @@ $$;
 -- UPDATE
 update account_invoice set intrastat_transaction_id = null where intrastat_transaction_id is not null;
 UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
+UPDATE account_invoice SET intrastat_transaction_id = 1 WHERE company_id = 1;
+
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='account_invoice' and column_name='src_dest_country_id') THEN
+ALTER TABLE account_invoice ADD COLUMN src_dest_country_id integer;
+COMMENT ON COLUMN account_invoice.src_dest_country_id IS 'Origin/Destination Country';
+END IF;                                      
+END
+$$;
+
+UPDATE account_invoice SET src_dest_country_id = (SELECT country_id FROM res_partner WHERE id = account_invoice.partner_id), 
+intrastat_country = (SELECT res_country.intrastat FROM res_country JOIN res_partner ON res_partner.country_id = res_country.id WHERE res_partner.id = account_invoice.partner_id);
+
+
 
 
 -- RES_COMPANY

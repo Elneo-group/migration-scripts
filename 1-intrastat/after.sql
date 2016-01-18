@@ -1,7 +1,4 @@
-UPDATE account_invoice SET src_dest_country_id = (SELECT country_id FROM res_partner WHERE id = account_invoice.partner_id), 
-intrastat_country = (SELECT res_country.intrastat FROM res_country JOIN res_partner ON res_partner.country_id = res_country.id WHERE res_partner.id = account_invoice.partner_id);
 
-UPDATE account_invoice SET intrastat_transaction_id = 1 WHERE company_id = 1;
 
 -- INTRASTAT CODE FOR PROD CATEGORIES 
 INSERT INTO ir_property (create_uid,create_date,write_date,write_uid,name,res_id,company_id,value_reference,fields_id,type)
