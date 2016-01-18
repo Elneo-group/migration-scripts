@@ -47,11 +47,6 @@ JOIN ir_model_fields imf ON imf.model = 'product.template' AND imf.name = 'hs_co
 
 WHERE NOT EXISTS (SELECT id FROM ir_property WHERE res_id = 'product.template,' || pt.id AND name = 'hs_code_id');
 
--- DEFAULT VALUES
-UPDATE res_company SET intrastat = 'standard';
-UPDATE res_company SET intrastat_arrivals = 'standard';
-UPDATE res_company SET intrastat_dispatches = 'standard';
-
 -- GET HS CODE FOR INVOICES
 CREATE OR REPLACE FUNCTION GetProdIntrastat(ProdId Integer) RETURNS Integer AS
 $$

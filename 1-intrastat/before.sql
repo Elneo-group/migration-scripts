@@ -50,3 +50,45 @@ $$;
 -- UPDATE
 update account_invoice set intrastat_transaction_id = null where intrastat_transaction_id is not null;
 UPDATE account_invoice SET intrastat = 'standard' WHERE company_id = 1;
+
+
+-- RES_COMPANY
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='res_company' and column_name='intrastat') THEN
+ALTER TABLE res_company ADD COLUMN intrastat character varying;
+COMMENT ON COLUMN res_company.intrastat IS 'Intrastat';
+END IF;                                      
+END
+$$;
+
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='res_company' and column_name='intrastat_arrivals') THEN
+ALTER TABLE res_company ADD COLUMN intrastat_arrivals character varying;
+COMMENT ON COLUMN res_company.intrastat_arrivals IS 'Intrastat Arrivals';
+END IF;                                      
+END
+$$;
+
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='res_company' and column_name='intrastat_dispatches') THEN
+ALTER TABLE res_company ADD COLUMN intrastat_dispatches character varying;
+COMMENT ON COLUMN res_company.intrastat_dispatches IS 'Intrastat Dispatches';
+END IF;                                      
+END
+$$;
+
+UPDATE res_company SET intrastat = 'standard';
+UPDATE res_company SET intrastat_arrivals = 'standard';
+UPDATE res_company SET intrastat_dispatches = 'standard';
