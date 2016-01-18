@@ -64,6 +64,18 @@ END IF;
 END
 $$;
 
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='account_invoice' and column_name='intrastat_country') THEN
+ALTER TABLE account_invoice ADD COLUMN intrastat_country boolean;
+COMMENT ON COLUMN account_invoice.intrastat_country IS 'Intrastat Country';
+END IF;                                      
+END
+$$;
+
 UPDATE account_invoice SET src_dest_country_id = (SELECT country_id FROM res_partner WHERE id = account_invoice.partner_id), 
 intrastat_country = (SELECT res_country.intrastat FROM res_country JOIN res_partner ON res_partner.country_id = res_country.id WHERE res_partner.id = account_invoice.partner_id);
 
