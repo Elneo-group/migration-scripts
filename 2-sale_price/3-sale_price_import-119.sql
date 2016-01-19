@@ -185,7 +185,7 @@ insert into ir_property(create_uid, create_date, write_date, write_uid,
 select i.create_uid, i.create_date, i.write_date, i.write_uid, 
        i.value_float, i.name, i.value_text, i.res_id, i.company_id, i.fields_id, 
        i.value_datetime, i.value_binary, i.value_reference, i.type, i.value_integer 
-from import_ir_property i left join ir_property p on p.res_id = i.res_id where p.id is null;
+from import_ir_property i left join ir_property p on p.res_id = i.res_id;
 
 
 update res_partner set discount_type_id = i.discount_type_id from import_partner_discount_type i where i.partner_id = res_partner.id;

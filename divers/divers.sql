@@ -54,3 +54,29 @@ WHERE id IN
 JOIN purchase_order po ON pol.order_id = po.id
 WHERE po.state = 'cancel'
 AND pol.state != 'cancel');
+
+
+-- add commitment date field to increase speed of sale_order_dates installation
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='sale_ordernvoice' and column_name='commitment_date') THEN
+ALTER TABLE sale_order ADD COLUMN commitment_date timestamp without time zone;
+COMMENT ON COLUMN sale_order.commitment_date IS 'Commitment Date';
+END IF;                                      
+END
+$$;
+
+DO
+$$
+BEGIN
+IF NOT EXISTS (SELECT column_name 
+               FROM information_schema.columns 
+               WHERE table_schema='public' and table_name='stock_picking' and column_name='sale_id') THEN
+ALTER TABLE stock_picking ADD COLUMN sale_id integer;
+COMMENT ON COLUMN stock_picking.sale_id IS 'Sale Order';
+END IF;                                      
+END
+$$;

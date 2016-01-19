@@ -1,4 +1,5 @@
-﻿--update stock_move set product_qty = product_qty_old;
+﻿update stock_move set product_qty = product_qty_old;
+
 
 
 INSERT INTO stock_inventory(
