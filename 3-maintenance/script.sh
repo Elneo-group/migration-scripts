@@ -135,4 +135,12 @@ python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL eln
 echo "elneo_default_supplier..."
 python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL elneo_default_supplier
 
+echo "maintenance_product_mandatory..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_product_mandatory
+
+echo "maintenance_return_picking..."
+python $BASEDIR/module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL maintenance_return_picking
+
+psql -h $DB_HOST -d $DATABASE -U $DB_USER -X --echo-all -v ON_ERROR_STOP=1 -f $BASEDIR/4_maintenance_return_picking.sql
+
 echo "------ MAINTENANCE (FIN) -----"
