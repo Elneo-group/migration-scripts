@@ -191,9 +191,9 @@ from import_ir_property i left join ir_property p on p.res_id = i.res_id;
 update res_partner set discount_type_id = i.discount_type_id from import_partner_discount_type i where i.partner_id = res_partner.id;
 
 
-update product_template set cost_price = pp.cost_price from product_product pp where pp.product_tmpl_id = product_template.id and pp.cost_price != 0 and pp.cost_price is not null;
-update product_template set cost_price_fixed = pp.cost_price_fixed from product_product pp where pp.product_tmpl_id = product_template.id and pp.cost_price_fixed != 0 and pp.cost_price_fixed is not null;
-update product_template set compute_cost_price = pp.compute_cost_price from product_product pp where pp.product_tmpl_id = product_template.id and pp.compute_cost_price;
+update product_template set cost_price = pp.cost_price from product_product pp where pp.product_tmpl_id = product_template.id;
+update product_template set cost_price_fixed = pp.cost_price_fixed from product_product pp where pp.product_tmpl_id = product_template.id;
+update product_template set compute_cost_price = pp.compute_cost_price from product_product pp where pp.product_tmpl_id = product_template.id;
 
 update product_template set 
 sale_price_fixed = p.sale_price_fixed, 
