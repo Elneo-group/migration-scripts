@@ -1,4 +1,6 @@
 ﻿update stock_move set product_qty = product_qty_old;
+update stock_move set product_uom_qty = product_qty_old;
+update stock_move set product_uos_qty = product_qty_old;
 
 
 
