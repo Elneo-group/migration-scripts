@@ -19,6 +19,7 @@ DELETE FROM ir_ui_menu WHERE id = 481;
 --DELETE FROM ir_ui_view WHERE name LIKE '%maintenance%' OR model LIKE '%maintenance%';
 --DELETE FROM ir_ui_view WHERE name = 'stock.picking.out.tree';
 
+/* ODOO CHANGED MIGRATION SCRIPTS -- EVERY ADDRESS IS CORRECTLY LINKED TO THE GOOD RES_PARTNER
 update maintenance_intervention set address_id = req.a_id 
 from (select i.id as i_id, a.old_partner_id as a_id from maintenance_intervention i left join res_partner_address a on a.id = i.address_id) req
 where req.i_id = maintenance_intervention.id;
@@ -26,7 +27,7 @@ where req.i_id = maintenance_intervention.id;
 update maintenance_installation set address_id = req.a_id 
 from (select i.id as i_id, a.old_partner_id as a_id from maintenance_installation i left join res_partner_address a on a.id = i.address_id) req
 where req.i_id = maintenance_installation.id;
-
+*/
 
 UPDATE maintenance_intervention_product SET sale_order_line_id = NULL
 WHERE id IN
