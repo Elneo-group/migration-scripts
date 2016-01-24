@@ -34,8 +34,9 @@ echo "------ INTRASTAT -----"
 echo 'before.sql'
 psql -h $DB_HOST -d $DATABASE -U $DB_USER -f $BASEDIR/before.sql
 
+python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be
 python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL l10n_be_intrastat_product
-python $BASEDIR/../module_install.py -d $DATABASE -u $USER -w $PASSWORD -s $URL intrastat_base,intrastat_product
+
 
 echo 'Launch Intrastat Installer'
 python $BASEDIR/../module_launch_installer.py -d $DATABASE -u $USER -w $PASSWORD -s $URL -f execute -a "CN_file=2015_fr" intrastat.installer

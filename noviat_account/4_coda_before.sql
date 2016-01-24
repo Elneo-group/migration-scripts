@@ -1,1 +1,0 @@
-update ir_model_data set module='l10n_be_coda_advanced' where module='l10n_be_coda';
