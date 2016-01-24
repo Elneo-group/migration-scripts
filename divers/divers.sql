@@ -62,7 +62,7 @@ $$
 BEGIN
 IF NOT EXISTS (SELECT column_name 
                FROM information_schema.columns 
-               WHERE table_schema='public' and table_name='sale_ordernvoice' and column_name='commitment_date') THEN
+               WHERE table_schema='public' and table_name='sale_order' and column_name='commitment_date') THEN
 ALTER TABLE sale_order ADD COLUMN commitment_date timestamp without time zone;
 COMMENT ON COLUMN sale_order.commitment_date IS 'Commitment Date';
 END IF;                                      
@@ -80,3 +80,11 @@ COMMENT ON COLUMN stock_picking.sale_id IS 'Sale Order';
 END IF;                                      
 END
 $$;
+
+
+--- IN ELNEO SALE WE GET BACK TO OLD BEHAVIOUR WITH PRODUCT DESCRIPTION_SALE
+--- WE ADD A FIELD NOTES (SO WE HAVE TO SUBSTRACT NOTE FROM DESCRIPTION)
+UPDATE sale_order_line SET name = req1.name
+FROM
+(SELECT id as id, SUBSTRING(name from 0 for position(chr(10) || notes in name)) as name FROM sale_order_line WHERE position(chr(10) || notes in name) IS NOT NULL AND position(chr(10) || notes in name) <> 0 AND notes IS NOT NULL)req1
+WHERE sale_order_line.id = req1.id;

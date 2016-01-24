@@ -8,10 +8,7 @@ where suppinfo_id is not null
 order by pp.id;
 
 
-delete from pricelist_partnerinfo where id in (select pl1.id from pricelist_partnerinfo pl1 left join
-(select max(pl.id) as pl_id from pricelist_partnerinfo pl group by pl.suppinfo_id, pl.min_quantity) req
-on req.pl_id = pl1.id
-where req.pl_id is null);
+
 
 */
 
@@ -32,3 +29,8 @@ FROM pricelist_partnerinfo pp WHERE NOT EXISTS (
 	AND min_quantity = pp.min_quantity
 	AND create_date = pp.create_date
 	);
+	
+delete from pricelist_partnerinfo where id in (select pl1.id from pricelist_partnerinfo pl1 left join
+(select max(pl.id) as pl_id from pricelist_partnerinfo pl group by pl.suppinfo_id, pl.min_quantity) req
+on req.pl_id = pl1.id
+where req.pl_id is null);
