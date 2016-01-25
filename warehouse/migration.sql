@@ -153,6 +153,12 @@ delete from stock_warehouse where id = 3;
 update sale_order_line set route_id = (select id from stock_location_route where name = 'Make To Order') where type = 'make_to_order';
 update sale_order_line set route_id = (select id from stock_location_route where name = 'From stock') where type = 'make_to_stock';
 
+--reset good sequences
+
+SELECT setval('public.stock_picking_type_id_seq', (select max(id)+1 from stock_picking_type), true);
+SELECT setval('public.procurement_rule_id_seq', (select max(id)+1 from procurement_rule), true);
+SELECT setval('public.stock_location_route_id_seq', (select max(id)+1 from stock_location_route), true);
+
 END;
 $$ LANGUAGE plpgsql;
 
