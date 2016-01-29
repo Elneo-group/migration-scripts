@@ -88,3 +88,12 @@ UPDATE sale_order_line SET name = req1.name
 FROM
 (SELECT id as id, SUBSTRING(name from 0 for position(chr(10) || notes in name)) as name FROM sale_order_line WHERE position(chr(10) || notes in name) IS NOT NULL AND position(chr(10) || notes in name) <> 0 AND notes IS NOT NULL)req1
 WHERE sale_order_line.id = req1.id;
+
+
+
+ALTER TABLE sale_order ADD COLUMN margin_elneo double precision;
+COMMENT ON COLUMN sale_order.margin_elneo IS 'Margin';
+ALTER TABLE sale_order ADD COLUMN margin_elneo_coeff double precision;
+COMMENT ON COLUMN sale_order.margin_elneo_coeff IS 'Margin (Coeff)';
+ALTER TABLE sale_order_line ADD COLUMN margin_elneo double precision;
+COMMENT ON COLUMN sale_order_line.margin_elneo IS 'Margin';
