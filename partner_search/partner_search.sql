@@ -42,3 +42,24 @@ $BODY$
 update res_partner set search_field = null;
 
 select fill_all_partner_search();
+
+
+
+CREATE OR REPLACE FUNCTION fill_trg_res_partner()
+  RETURNS trigger AS
+$BODY$
+    BEGIN	
+	IF (TG_OP = 'DELETE') THEN		
+            perform fill_partner_search_field(OLD.id);
+            RETURN OLD;
+        ELSIF (TG_OP = 'UPDATE' OR TG_OP = 'INSERT') THEN	
+            perform fill_partner_search_field(NEW.id);
+            RETURN NEW;        
+        END IF;   
+
+        return null;     
+        
+    END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;

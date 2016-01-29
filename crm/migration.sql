@@ -28,3 +28,14 @@ select e.id, u.partner_id from calendar_event e
 	left join calendar_event_res_partner_rel rel on rel.calendar_event_id = e.id
 where rel.res_partner_id is null
 );
+
+
+--Manage calendar event
+truncate table calendar_event_type cascade;
+insert into calendar_event_type(id,name) 
+select id,name from crm_case_categ;
+
+SELECT setval('public.calendar_event_type_id_seq', (select max(id)+1 from calendar_event_type), true);
+
+insert into meeting_category_rel(event_id, type_id)
+select id, categ_id from calendar_event where categ_id is not null;
